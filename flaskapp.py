@@ -6,12 +6,13 @@ import os
 from flask import Flask
 from flask import render_template
 from flask import request
+# from flask import redirect, url_for
 app = Flask('flaskapp')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @app.route('/hello/', methods=['GET', 'POST'])
@@ -28,26 +29,26 @@ def login():
         return render_template('hello.html')
 
 
-@app.route('/profile?firstname=Peter&lastname=Seger', methods=['GET', 'POST'])
-def dashboard():
-    return request.method
+# @app.route('/dashboard', methods=['POST', 'GET'])
+# def dashboard(firstname=None):
+#     firstname = request.form.get('firstname')
+#     # user_route = url_for('dashboard', firstname=firstname)
+#     return firstname
 
 
-@app.route('/profile', methods=['POST', 'GET'])
-def profile():
-    # return request.method
-    firstname = request.form.get('firstname')
-    return firstname
-    # return firstname
-    # lastname = request.form['lastname']
-    # return(firstname + '  ' + lastname)
-    # if len(firstname) != 0 and len(lastname) != 0:
-    #     return render_template('profile.html')
-    # else:
-    #     return render_template('redirect.html')
+@app.route('/user', methods=['POST', 'GET'])
+@app.route('/user/<string:firstname>', methods=['POST', 'GET'])
+def dashboard(firstname=None):
+    return render_template('dashboard.html', firstname=firstname)
+# @app.route(user_route, methods=['POST', 'GET'])
+# def dashboard(firstname=None):
+#     # return request.method
+#     # firstname = request.form.get('firstname')
+#     # # lastname = request.form.get('lastname')
+#     # password = request.form.get('password')
+#     # return (firstname + '  ' + password)
+#     return render_template('dashboard.html', firstname=firstname)
 
-
-# app = flask_app.wsgi_app
 
 if __name__ == '__main__':
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
