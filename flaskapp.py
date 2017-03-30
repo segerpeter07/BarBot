@@ -6,7 +6,8 @@ import os
 from flask import Flask
 from flask import render_template
 from flask import request
-# from flask import redirect, url_for
+from flask import Flask, flash, redirect, render_template, request, session, abort
+
 app = Flask('flaskapp')
 
 
@@ -24,7 +25,10 @@ def hello(name=None):
 @app.route('/login', methods=['GET'])
 def login():
     if 'GET':
-        return render_template('login.html')
+        if not session.get('logged_in'):
+            return render_template('login.html')
+        else:
+            return render_template('dashboard.html')
     else:
         return render_template('hello.html')
 
@@ -39,7 +43,11 @@ def login():
 @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:firstname>', methods=['POST', 'GET'])
 def dashboard(firstname=None):
-    return render_template('dashboard.html', firstname=firstname)
+    if request.form['password'] == 'password' and request.form['firstname'] == 'admin':
+        session['logged_in'] = True
+        return render_template('dashboard.html', firstname=firstname)
+    else:
+        return 'Wrong password!'
 # @app.route(user_route, methods=['POST', 'GET'])
 # def dashboard(firstname=None):
 #     # return request.method
@@ -51,6 +59,7 @@ def dashboard(firstname=None):
 
 
 if __name__ == '__main__':
+    app.secret_key = os.urandom(12)
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
     app.run(host=HOST, port=PORT)
