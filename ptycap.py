@@ -1,13 +1,10 @@
 """
-Simple "Hello, World" application using Flask
+Party captain dashboard
 """
 
 import os
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import Flask, flash, redirect, render_template, request, session, abort
-
+from flask import Flask, render_template, request
+# from flask import redirect, url_for
 app = Flask('flaskapp')
 
 
@@ -16,19 +13,10 @@ def hello_world():
     return render_template('home.html')
 
 
-@app.route('/hello/', methods=['GET', 'POST'])
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello.html', name=name)
-
-
 @app.route('/login', methods=['GET'])
 def login():
     if 'GET':
-        if not session.get('logged_in'):
-            return render_template('login.html')
-        else:
-            return render_template('dashboard.html')
+        return render_template('login.html')
     else:
         return render_template('hello.html')
 
@@ -43,11 +31,7 @@ def login():
 @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:firstname>', methods=['POST', 'GET'])
 def dashboard(firstname=None):
-    if request.form['password'] == 'password' and request.form['firstname'] == 'admin':
-        session['logged_in'] = True
-        return render_template('dashboard.html', firstname=firstname)
-    else:
-        return 'Wrong password!'
+    return render_template('dashboard.html', firstname=firstname)
 # @app.route(user_route, methods=['POST', 'GET'])
 # def dashboard(firstname=None):
 #     # return request.method
@@ -59,7 +43,6 @@ def dashboard(firstname=None):
 
 
 if __name__ == '__main__':
-    app.secret_key = os.urandom(12)
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
     app.run(host=HOST, port=PORT)
