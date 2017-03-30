@@ -1,10 +1,8 @@
-$(function () {
-    $('.btn-radio, img').click(function(e) {
-        $('.btn-radio').not(this).removeClass('active')
-    		.siblings('input').prop('checked',false)
-            .siblings('.img-radio').css('opacity','0.5');
-    	$(this).parent().children('.btn-radio').addClass('active')
-            .siblings('input').prop('checked',true)
-    		.siblings('.img-radio').css('opacity','1');
-    });
+$(function(){
+	$('div.product-chooser').not('.disabled').find('div.product-chooser-item').on('click', function(){
+		$(this).parent().parent().find('div.product-chooser-item').removeClass('selected');
+		$(this).addClass('selected');
+		$(this).find('input[type="radio"]').prop("checked", true);
+
+	});
 });
