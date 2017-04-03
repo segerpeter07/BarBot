@@ -22,13 +22,13 @@
   </head>
   <body>
     <div class="container">
-      <h1>Welcome to BarBot</h1>
+      <h1>Settings</h1>
 
-      <form action="" method="post" class="form-signin">
+      <form action="/{{firstname}}" method="post" class="form-signin">
         <h3 class="form-signin-heading">Please sign in</h3>
 
         <label for="name" class="sr-only">First Name</label>
-        <input type="name" name="firstname" class="form-control" placeholder="First Name" required autofocus>
+        <input type="name"class="form-control" placeholder="First Name" required autofocus>
 
         <!-- <label for="name" class="sr-only">Last Name</label>
         <input type="name" name="lastname" class="form-control" placeholder="Last Name" required> -->
@@ -37,11 +37,8 @@
         <input type="password" name="password" class="form-control" placeholder="Password" required>
 
         <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" href = "{{firstname}}">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="save">Sign in</button>
       </form>
 
     </div> <!-- /container -->
