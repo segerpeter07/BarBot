@@ -14,7 +14,7 @@ def home():
 @app.route('/drinkresults', methods = ['GET','POST'])
 def drink():
     if request.method=='POST':
-        mixer=request.form['mixer']
+        mixer=request.form['mixers']
         alcohol=request.form['alcohol']
         if mixer and alcohol:
             return render_template('drinksresults.html',mixer=mixer, alcohol=alcohol)
