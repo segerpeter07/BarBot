@@ -13,6 +13,11 @@ def pcdashboard():
     return render_template('pcdash.html')
 
 
+@app.route('/plotty', methods=['GET', 'POST'])
+def plot_test():
+    return render_template('LinePlotTemplate.html')
+
+
 if __name__ == '__main__':
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
