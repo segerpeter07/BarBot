@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Login:</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <p> Please give me some basic information </p>
+  <body>
+    <div class="container">
+      <br>
+      <form action="" method="post">
+        <p> Your name:</p>
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}"><br>
+          <p> Your age </p>
+        <input type="age" placeholder="99" name="age" value="{{
+         request.form.age }}"><br>
+         <p> Your School </p>
+         <input type="school" name = "school" placeholder="Wellesley"><br><br>
+        <input class="btn btn-default" type="submit" value="Submit">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>
