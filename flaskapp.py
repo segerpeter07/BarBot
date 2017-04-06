@@ -13,14 +13,8 @@ app = Flask('flaskapp')
 
 
 @app.route('/', methods=['GET', 'POST'])
-def hello_world():
+def home():
     return render_template('home.html')
-
-
-@app.route('/hello/', methods=['GET', 'POST'])
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello.html', name=name)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -92,4 +86,5 @@ if __name__ == '__main__':
     app.secret_key = os.urandom(12)
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
-    app.run(host=HOST, port=PORT)
+    # app.run(host=HOST, port=PORT)
+    app.run('localhost', port=PORT)

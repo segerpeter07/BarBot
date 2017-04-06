@@ -1,13 +1,69 @@
 <!DOCTYPE html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.min.css')}}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.css')}}">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <button type="button" class="btn btn-outline-primary">Primary</button>
-    <button type="button" class="btn btn-outline-secondary">Secondary</button>
-    <button type="button" class="btn btn-outline-success">Success</button>
-    <button type="button" class="btn btn-outline-info">Info</button>
-    <button type="button" class="btn btn-outline-warning">Warning</button>
-    <button type="button" class="btn btn-outline-danger">Danger</button>
+
+<form action='/drinkresults' method='post'>
+    <div class="form-check" data-toggle="buttons-radio" name="mixers">
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Sprite" autocomplete="off" name='mixers'> Sprite
+      </label>
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="Coke" autocomplete="off" name='mixers'> Coke
+      </label>
+      <label class="btn btn-success btn-lg">
+        <input type="radio" value="Ginger Ale" autocomplete="off" name='mixers'> Ginger Ale
+      </label>
+      <label class="btn btn-warning btn-lg">
+        <input type="radio" value="Orange Soda" autocomplete="off" name='mixers'> Orange Soda
+      </label>
+      <label class="btn btn-info btn-lg">
+        <input type="radio" value="Tonic" autocomplete="off" name='mixers'> Tonic
+      </label>
+    </div>
+<br>
+<br>
+<fieldset class="form-group">
+    <div class="form-check" data-toggle="buttons-radio" name="alcohol">
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Vokda" autocomplete="off" name="alcohol"> Vokda
+      </label>
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Rum" autocomplete="off" name="alcohol"> Rum
+      </label>
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Whiskey" autocomplete="off" name="alcohol"> Whiskey
+      </label>
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Tequila" autocomplete="off" name="alcohol"> Tequila
+      </label>
+      <label class="btn btn-primary btn-lg">
+        <input type="radio" value="Gin" autocomplete="off" name="alcohol"> Gin
+      </label>
+    </div>
+</fieldset>
+    <br>
+    <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Submit </button>
+</form>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
