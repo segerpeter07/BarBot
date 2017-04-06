@@ -20,42 +20,46 @@
   <body>
 
 <form action='/drinkresults' method='post'>
-    <div class="btn-group" data-toggle="buttons-radio">
+    <div class="form-check" data-toggle="buttons-radio" name="mixers">
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="mixers" id="Sprite" autocomplete="off"> Sprite
+        <input type="radio" value="Sprite" autocomplete="off" name='mixers'> Sprite
       </label>
       <label class="btn btn-danger btn-lg">
-        <input type="radio" name="mixers" id="Coke" autocomplete="off"> Coke
+        <input type="radio" value="Coke" autocomplete="off" name='mixers'> Coke
       </label>
       <label class="btn btn-success btn-lg">
-        <input type="radio" name="mixers" id="Ginger Ale" autocomplete="off"> Ginger Ale
+        <input type="radio" value="Ginger Ale" autocomplete="off" name='mixers'> Ginger Ale
       </label>
       <label class="btn btn-warning btn-lg">
-        <input type="radio" name="mixers" id="Orange Soda" autocomplete="off"> Orange Soda
+        <input type="radio" value="Orange Soda" autocomplete="off" name='mixers'> Orange Soda
       </label>
       <label class="btn btn-info btn-lg">
-        <input type="radio" name="mixers" id="Tonic" autocomplete="off"> Tonic
+        <input type="radio" value="Tonic" autocomplete="off" name='mixers'> Tonic
       </label>
     </div>
 <br>
 <br>
-    <div class="btn-group" data-toggle="buttons-radio">
+<fieldset class="form-group">
+    <div class="form-check" data-toggle="buttons-radio" name="alcohol">
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="alcohol" id="Vokda" autocomplete="off"> Vokda
+        <input type="radio" value="Vokda" autocomplete="off" name="alcohol"> Vokda
       </label>
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="alcohol" id="Rum" autocomplete="off"> Rum
+        <input type="radio" value="Rum" autocomplete="off" name="alcohol"> Rum
       </label>
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="alcohol" id="Whiskey" autocomplete="off"> Whiskey
+        <input type="radio" value="Whiskey" autocomplete="off" name="alcohol"> Whiskey
       </label>
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="alcohol" id="Tequila" autocomplete="off"> Tequila
+        <input type="radio" value="Tequila" autocomplete="off" name="alcohol"> Tequila
       </label>
       <label class="btn btn-primary btn-lg">
-        <input type="radio" name="alcohol" id="Gin" autocomplete="off"> Gin
+        <input type="radio" value="Gin" autocomplete="off" name="alcohol"> Gin
       </label>
     </div>
+</fieldset>
+    <br>
+    <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Submit </button>
 </form>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -47,7 +47,7 @@ def dashboard(firstname=None):
         session['logged_in'] = True
         return render_template('dashboard.html', firstname=firstname)
     else:
-        return 'Wrong password!'
+        return render_template('wrong_password.html')
 # @app.route(user_route, methods=['POST', 'GET'])
 # def dashboard(firstname=None):
 #     # return request.method
