@@ -10,14 +10,56 @@ to see what has been inserted
 """
 
 import sqlite3 as sql
+import sys
 
 
-def insert_account_holder(email, username, phone, password):
-        con = sql.connect("database.db")
-        cur = con.cursor()
-        cur.execute("INSERT INTO account_holder (email,username,phone,password) VALUES (?,?,?,?)", (email, username, phone, password))
-        con.commit()
-        con.close()
+def insert_user(email, username, phone, password):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO account_holder (email,username,phone,password) VALUES (?,?,?,?)", (email, username, phone, password))
+    con.commit()
+    con.close()
 
 
-insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
+def return_data():
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("SELECT * FROM account_holder")
+    row = cur.fetchall()
+    print(row)
+    con.close()
+
+
+def update_info(username, password):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('UPDATE account_holder SET password=? WHERE username=?', (password, username))
+    con.commit()
+    con.close()
+
+
+def return_user(username):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    for person in data:
+        if person[2] == username:
+            return(person)
+    con.commit()
+    con.close()
+    return None
+
+
+def return_password(username):
+    data = return_user(username)
+    return data[4]
+
+
+if __name__ == '__main__':
+    # insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
+    # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
+    # update_info(input('username: '), input('password: '))
+    return_data()
+    # return_user(input('Username: '))
+    print(return_password(input('User to retrun password: ')))

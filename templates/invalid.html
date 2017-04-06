@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>BarBot - Login</title>
+    <title>BarBot - Invalid</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.min.css')}}">
@@ -22,33 +22,10 @@
   </head>
   <body>
     <div class="container">
-      <h1>Welcome to BarBot</h1>
-
-      <form action="" method="post" class="form-signin">
-        <h3 class="form-signin-heading">Please sign in</h3>
-
-        <label for="name" class="sr-only">Username</label>
-        <input type="name" name="username" class="form-control" placeholder="Username" required autofocus>
-
-        <!-- <label for="name" class="sr-only">Last Name</label>
-        <input type="name" name="lastname" class="form-control" placeholder="Last Name" required> -->
-
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password" required>
-
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" href = "{{firstname}}">Sign in</button>
+      <h1>Sorry but that username is taken</h1>
+      <form action="/new_user" method="post" class="form-signin">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Try Again</button>
       </form>
-
-      <form action="/new_user" method="get" class="form-signin">
-        <p>Need an account?</p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">New Account</button>
-      </form>
-
     </div> <!-- /container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
