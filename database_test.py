@@ -38,8 +38,36 @@ def update_info(username, password):
     con.close()
 
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     # insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
     # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
     update_info(input('username: '), input('password: '))
     return_data()
+=======
+def return_user(username):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    for person in data:
+        if person[2] == username:
+            return(person)
+    con.commit()
+    con.close()
+    return None
+
+
+def return_password(username):
+    data = return_user(username)
+    return data[4]
+
+
+if __name__ == '__main__':
+    # insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
+    # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
+    # update_info(input('username: '), input('password: '))
+    return_data()
+    # return_user(input('Username: '))
+    print(return_password(input('User to retrun password: ')))
+>>>>>>> 9493cb82d29b025e43c9cffd0aaac1e9316c7f01

@@ -7,6 +7,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort
+from database_test import return_password, return_user, insert_user
 
 app = Flask('flaskapp')
 
@@ -22,15 +23,25 @@ def hello(name=None):
     return render_template('hello.html', name=name)
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'GET':
         if not session.get('logged_in'):
             return render_template('login.html')
         else:
             return render_template('dashboard.html')
-    else:
-        return render_template('hello.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    session['logged_in'] = False
+    return render_template('login.html')
+
+
+@app.route('/new_user', methods=['GET'])
+def new_user():
+    if 'GET':
+        return render_template('new_user_creation.html')
 
 
 # @app.route('/dashboard', methods=['POST', 'GET'])
@@ -39,11 +50,30 @@ def login():
 #     # user_route = url_for('dashboard', firstname=firstname)
 #     return firstname
 
+@app.route('/new_user/confirmation', methods=['GET','POST'])
+def confirmation():
+    email = request.form['email']
+    username = request.form['username']
+    phone = request.form['phone']
+    password = request.form['password']
+    if return_user(username) is None:
+        insert_user(email, username, phone, password)
+        return render_template('confirmation.html')
+    else:
+        return render_template('invalid.html')
+
 
 @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:firstname>', methods=['POST', 'GET'])
 def dashboard(firstname=None):
-    if request.form['password'] == 'password' and request.form['firstname'] == 'admin':
+    username = request.form['username']
+    password = request.form['password']
+    # Check if user exists
+    if return_user(username) is None:
+        return render_template('wrong_password.html')
+
+    user_pass = return_password(username)
+    if password == user_pass:
         session['logged_in'] = True
         return render_template('dashboard.html', firstname=firstname)
     else:
