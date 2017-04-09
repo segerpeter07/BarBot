@@ -11,11 +11,16 @@ to see what has been inserted
 
 import sqlite3 as sql
 import sys
+import bcrypt
+salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'
+salt = salt.encode('utf-8')
 
 
 def insert_user(email, username, phone, password):
     con = sql.connect("database.db")
     cur = con.cursor()
+    password = password.encode('utf-8')
+    password = bcrypt.hashpw(password, salt)
     cur.execute("INSERT INTO account_holder (email,username,phone,password) VALUES (?,?,?,?)", (email, username, phone, password))
     con.commit()
     con.close()
@@ -33,6 +38,8 @@ def return_data():
 def update_info(username, password):
     con = sql.connect('database.db')
     cur = con.cursor()
+    password = password.encode('utf-8')
+    password = bcrypt.hashpw(password, salt)
     cur.execute('UPDATE account_holder SET password=? WHERE username=?', (password, username))
     con.commit()
     con.close()
@@ -51,9 +58,26 @@ def return_user(username):
     return None
 
 
-def return_password(username):
-    data = return_user(username)
-    return data[4]
+def chec_password(username, password):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    state = False   # Match state, by default false
+    for person in data:
+        if person[2] == username:
+            real_password = person[4]   # Hashed password for asociated match person
+    password = password.encode('utf-8')     # Encode given password
+    comp_password = bcrypt.hashpw(password, salt)
+    print(comp_password)
+    print(real_password)
+    if real_password == comp_password:      # Compare given password and what the db says
+        state = True
+    con.commit()
+    con.close()
+
+    print(state)
+    return state
 
 
 if __name__ == '__main__':
@@ -62,4 +86,3 @@ if __name__ == '__main__':
     # update_info(input('username: '), input('password: '))
     return_data()
     # return_user(input('Username: '))
-    print(return_password(input('User to retrun password: ')))
