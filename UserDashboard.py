@@ -4,6 +4,7 @@ Put your Flask app code here.
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from jinja2 import Environment, FileSystemLoader
+from database_test import update_info, return_user
 # create the application object
 
 app = Flask(__name__)
@@ -21,6 +22,8 @@ def home():
 
 @app.route('/<string:firstname>', methods=['GET', 'POST'])
 def dashboard(firstname=None):
+    firstname = return_user(firstname)
+    firstname = firstname[2]
     return render_template('dashboard_test.html', firstname=firstname)
 
 
