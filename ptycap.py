@@ -13,9 +13,21 @@ def pcdashboard():
     return render_template('pcdash.html')
 
 
+@app.route("/chart")
+def chart():
+    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    return render_template('LinePlotTemplate.html', values=values, labels=labels)
+
+
 @app.route('/plotty', methods=['GET', 'POST'])
 def plot_test():
     return render_template('LinePlotTemplate.html')
+
+
+@app.route('/barry', methods=['GET', 'POST'])
+def bar_test():
+    return render_template('BarGraph.html')
 
 
 if __name__ == '__main__':
