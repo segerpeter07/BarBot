@@ -15,6 +15,25 @@ import bcrypt
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'
 salt = salt.encode('utf-8')
 
+# Drinks Data --------------->
+
+
+def update_drink(drink):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    amount = 0
+    for category in data:
+        if category[0] == drink:
+            amount = category[1]
+    amount = amount - 1
+    cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
+    con.commit()
+    con.close()
+
+# --------------------------->
+
 
 def insert_user(email, username, phone, password):
     con = sql.connect("database.db")
@@ -85,4 +104,5 @@ if __name__ == '__main__':
     # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
     # update_info(input('username: '), input('password: '))
     return_data()
+    update_drink('coke')
     # return_user(input('Username: '))
