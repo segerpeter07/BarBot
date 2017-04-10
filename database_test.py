@@ -40,7 +40,7 @@ def insert_user(email, username, phone, password):
     cur = con.cursor()
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
-    cur.execute("INSERT INTO account_holder (email,username,phone,password) VALUES (?,?,?,?)", (email, username, phone, password))
+    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks) VALUES (?,?,?,?,?)", (email, username, phone, password, 0))
     con.commit()
     con.close()
 
