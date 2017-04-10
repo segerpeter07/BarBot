@@ -40,9 +40,21 @@ def insert_user(email, username, phone, password):
     cur = con.cursor()
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
-    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks) VALUES (?,?,?,?,?)", (email, username, phone, password, 0))
+    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode) VALUES (?,?,?,?,?,?)", (email, username, phone, password, 0,''))
     con.commit()
     con.close()
+
+
+def increase_drink_count(barcode):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    drinks = 0
+    for category in data:
+        if category[6] == barcode:
+            drinks = category[5] - 1
+    cur.execute('UPDATE drinks_data SET drinks=? WHERE barcode=?', (drinks, barcode))
 
 
 def return_data():
@@ -104,5 +116,5 @@ if __name__ == '__main__':
     # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
     # update_info(input('username: '), input('password: '))
     return_data()
-    update_drink('coke')
+    increase_drink_count('hello')
     # return_user(input('Username: '))
