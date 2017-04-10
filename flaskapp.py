@@ -7,7 +7,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort
-from database_test import return_password, return_user, insert_user
+from database_test import return_user, insert_user, chec_password, update_info
 
 app = Flask('flaskapp')
 
@@ -57,6 +57,22 @@ def confirmation():
         return render_template('invalid.html')
 
 
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    return render_template('reset_password.html')
+
+
+@app.route('/reset_password/confirmation', methods=['GET', 'POST'])
+def confirm_reset():
+    username = request.form['username']
+    phone = request.form['phone']
+    password = request.form['password']
+    user = return_user(username)
+    if user[3] == phone:
+        update_info(username, password)
+    return render_template('confirmation.html')
+
+
 @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:firstname>', methods=['POST', 'GET'])
 def dashboard(firstname=None):
@@ -66,8 +82,8 @@ def dashboard(firstname=None):
     if return_user(username) is None:
         return render_template('wrong_password.html')
 
-    user_pass = return_password(username)
-    if password == user_pass:
+    # user_pass = return_password(username)
+    if chec_password(username, password):
         session['logged_in'] = True
         return render_template('dashboard.html', firstname=firstname)
     else:
@@ -87,8 +103,4 @@ if __name__ == '__main__':
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
-<<<<<<< HEAD
-    app.run('LOCALHOST', port=PORT)
-=======
     app.run('localhost', port=PORT)
->>>>>>> 53bd5a9daff922fecafc1efde807d9a969597a67
