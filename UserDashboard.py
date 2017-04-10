@@ -4,7 +4,7 @@ Put your Flask app code here.
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from jinja2 import Environment, FileSystemLoader
-from database_test import update_info, return_user
+from database_test import update_info, return_user, update_drink
 import time
 import datetime
 # create the application object
