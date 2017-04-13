@@ -40,6 +40,7 @@ def chart():
 
 @app.route("/settings")
 def settings(firstname=None):
+    firstname = 'natedoggy'
     if request.method == 'POST':
         return redirect(url_for('dashboard', firstname=firstname))
     return render_template('DashBoard_Settings.html')
