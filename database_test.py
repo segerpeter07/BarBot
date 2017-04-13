@@ -12,13 +12,16 @@ to see what has been inserted
 import sqlite3 as sql
 import sys
 import bcrypt
-salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'
+salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
 # Drinks Data --------------->
 
 
 def update_drink(drink):
+    """
+    This function takes a drink and decrements the amount of drink based off the type
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM drinks_data')
@@ -26,14 +29,21 @@ def update_drink(drink):
     amount = 0
     for category in data:
         if category[0] == drink:
+            active_drink = category[0]
             amount = category[1]
-    amount = amount - 1
+            if active_drink == 'coke' or 'sprite' or 'tonic' or 'orange' or 'ginger':
+                amount = amount - 4
+            else:
+                amount = amount - 1
     cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
     con.commit()
     con.close()
 
 
 def get_drink_count(drink):
+    """
+    This function takes a drink and returns the amount of that drink that is left
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM drinks_data')
@@ -46,6 +56,10 @@ def get_drink_count(drink):
 
 
 def sync_user(username, barcode):
+    """
+    This function takes a username and barcode readin from a reader
+    and syncs the corresponding user account with the barcode.
+    """
     con = sql.connect("database.db")
     cur = con.cursor()
     cur.execute('SELECT * FROM account_holder')
@@ -139,6 +153,7 @@ def chec_password(username, password):
 if __name__ == '__main__':
     return_data()
     increase_drink_count('hello')
+    update_drink('coke')
     sync_user('pseger1', 'heyo')
     print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
