@@ -35,6 +35,19 @@ def update_drink(drink):
 # --------------------------->
 
 
+def sync_user(username, barcode):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    for person in data:
+        if person[2] == username:
+            person_barcode = barcode
+    cur.execute('UPDATE account_holder SET barcode=? WHERE username=?', (person_barcode, username))
+    con.commit()
+    con.close()
+
+
 def insert_user(email, username, phone, password):
     con = sql.connect("database.db")
     cur = con.cursor()
@@ -48,13 +61,15 @@ def insert_user(email, username, phone, password):
 def increase_drink_count(barcode):
     con = sql.connect('database.db')
     cur = con.cursor()
-    cur.execute('SELECT * FROM drinks_data')
+    cur.execute('SELECT * FROM account_holder')
     data = cur.fetchall()
     drinks = 0
     for category in data:
         if category[6] == barcode:
-            drinks = category[5] - 1
-    cur.execute('UPDATE drinks_data SET drinks=? WHERE barcode=?', (drinks, barcode))
+            drinks = category[5] + 1
+    cur.execute('UPDATE account_holder SET drinks=? WHERE barcode=?', (drinks, barcode))
+    con.commit()
+    con.close()
 
 
 def return_data():
@@ -117,4 +132,5 @@ if __name__ == '__main__':
     # update_info(input('username: '), input('password: '))
     return_data()
     increase_drink_count('hello')
+    sync_user('pseger1', 'heyo')
     # return_user(input('Username: '))
