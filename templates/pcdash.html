@@ -14,8 +14,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.min.css')}}">
 
-    <!-- Custom styles for this template -->
+    <!-- Borrowed styles from regular user dashboard -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/dashboard.css')}}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/ptycap.css')}}">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -58,18 +61,14 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
+            <li class="active"><a href="#welcome">Welcome<span class="sr-only">(current)</span></a></li>
+            <li><a href="#profit">Profit</a></li>
+            <li><a href="#bacs">BACs</a></li>
+            <li><a href="#inventory">Inventory</a></li>
           </ul>
         </div>
+
+        <a class="anchor" id="welcome"></a>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           {% if firstname %}
              <h1 class="page-header">Welcome {{firstname}}</h1>
@@ -77,31 +76,19 @@
              <h1 class="page-header">Welcome John Doe</h1>
           {% endif %}
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div>
+          <a class="anchor" id="profit"></a>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-success">Revenue: ${{revenue}}</li>
+            <li class="list-group-item list-group-item-danger">Expense: -${{expense}}</li>
+            <li class="list-group-item list-group-item-info">Profit: ${{profit}}</li>
+          </ul>
 
-          <h2 class="sub-header">Your BAC</h2>
-                  <object data=http://127.0.0.1:5000/chart width="700" height="600"> <embed src=http://127.0.0.1:5000/chart width="700" height="600"> </embed> Error: Embedded data could not be displayed. </object>
+          <a class="anchor" id="bacs"></a>
+          <h2 class="sub-header">Partygoer BACs</h2>
+                  <object data=http://127.0.0.1:5000/chart width="700" height="425"> <embed src=http://127.0.0.1:5000/chart width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
+          <a class="anchor" id="inventory"></a>
+          <h2 class="sub-header">Bar Inventory</h2>
+                  <object data=http://127.0.0.1:5000/barry width="700" height="425"> <embed src=http://127.0.0.1:5000/barry width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
         </div>
       </div>
     </div>
