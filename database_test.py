@@ -32,6 +32,16 @@ def update_drink(drink):
     con.commit()
     con.close()
 
+
+def get_drink_count(drink):
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    for choice in data:
+        if choice[0] == drink:
+            return choice[1]
+
 # --------------------------->
 
 
@@ -127,10 +137,8 @@ def chec_password(username, password):
 
 
 if __name__ == '__main__':
-    # insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
-    # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
-    # update_info(input('username: '), input('password: '))
     return_data()
     increase_drink_count('hello')
     sync_user('pseger1', 'heyo')
+    print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
