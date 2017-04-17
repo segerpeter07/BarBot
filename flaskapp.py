@@ -126,7 +126,7 @@ def barcoderesult():
         barcoderesult = request.form['barcode']
         username = request.form['username']
         if barcode:
-            sync_user('pseger', barcoderesult)
+            sync_user(username, barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
 
 # -------------------------------------------->

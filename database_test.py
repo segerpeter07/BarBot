@@ -55,7 +55,6 @@ def get_drink_count(drink):
 # --------------------------->
 
 
-
 def sync_user(username, barcode):
     """
     This function takes a username and barcode readin from a reader
