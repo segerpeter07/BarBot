@@ -7,16 +7,19 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort
-from database_test import return_user, insert_user, chec_password, update_info
+from database_test import *
 
 app = Flask('flaskapp')
 
 
+# ------HOME PAGE------->
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
+# ---------------------->
 
 
+# <-----HOME PAGE-------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'GET':
@@ -24,26 +27,26 @@ def login():
             return render_template('login.html')
         else:
             return render_template('dashboard.html')
+# --------------------->
 
 
+# <-----LOGOUT PAGE-------
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session['logged_in'] = False
     return render_template('login.html')
+# ----------------------->
 
 
+# -------New User-------->
 @app.route('/new_user', methods=['GET'])
 def new_user():
     if 'GET':
         return render_template('new_user_creation.html')
+# ------------------>
 
 
-# @app.route('/dashboard', methods=['POST', 'GET'])
-# def dashboard(firstname=None):
-#     firstname = request.form.get('firstname')
-#     # user_route = url_for('dashboard', firstname=firstname)
-#     return firstname
-
+# -----Confirmation Page---->
 @app.route('/new_user/confirmation', methods=['GET','POST'])
 def confirmation():
     email = request.form['email']
@@ -55,13 +58,17 @@ def confirmation():
         return render_template('confirmation.html')
     else:
         return render_template('invalid.html')
+# ---------------------->
 
 
+# -----Rest Password Page----->
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     return render_template('reset_password.html')
+# ------------------------------->
 
 
+# ------Password Reset Confirm----->
 @app.route('/reset_password/confirmation', methods=['GET', 'POST'])
 def confirm_reset():
     username = request.form['username']
@@ -71,8 +78,10 @@ def confirm_reset():
     if user[3] == phone:
         update_info(username, password)
     return render_template('confirmation.html')
+# ------------------------->
 
 
+# -------Dashboard--------->
 @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:firstname>', methods=['POST', 'GET'])
 def dashboard(firstname=None):
@@ -88,15 +97,38 @@ def dashboard(firstname=None):
         return render_template('dashboard.html', firstname=firstname)
     else:
         return render_template('wrong_password.html')
-# @app.route(user_route, methods=['POST', 'GET'])
-# def dashboard(firstname=None):
-#     # return request.method
-#     # firstname = request.form.get('firstname')
-#     # # lastname = request.form.get('lastname')
-#     # password = request.form.get('password')
-#     # return (firstname + '  ' + password)
-#     return render_template('dashboard.html', firstname=firstname)
 
+
+# ----------------------------------------------->
+
+@app.route('/bar', methods=['GET', 'POST'])
+def drinks_home():
+    return render_template('drinkbuttons.html')
+
+
+@app.route('/drinkresults', methods=['GET', 'POST'])
+def drink():
+    if request.method == 'POST':
+        mixers = request.form['mixers']
+        alcohol = request.form['alcohol']
+        if mixers and alcohol:
+            return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
+
+
+@app.route('/barcode', methods=['GET','POST'])
+def barcode():
+    return render_template('barcode.html')
+
+
+@app.route('/barcoderesult', methods=['GET', 'POST'])
+def barcoderesult():
+    if request.method == 'POST':
+        barcoderesult = request.form['barcode']
+        if barcode:
+            sync_user('pseger', barcoderesult)
+            return render_template('barcoderesult.html', barcoderesult=barcoderesult)
+
+# -------------------------------------------->
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
