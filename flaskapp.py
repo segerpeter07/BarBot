@@ -99,13 +99,17 @@ def dashboard(firstname=None):
         return render_template('wrong_password.html')
 
 
+# BAR SECTION
 # ----------------------------------------------->
 
+# ------------Bar Home---->
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
     return render_template('drinkbuttons.html')
+# ------------------------->
 
 
+# -------Drink Results------>
 @app.route('/drinkresults', methods=['GET', 'POST'])
 def drink():
     if request.method == 'POST':
@@ -113,13 +117,17 @@ def drink():
         alcohol = request.form['alcohol']
         if mixers and alcohol:
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
+# -------------------------->
 
 
+# -------User Sync Home----->
 @app.route('/barcode', methods=['GET','POST'])
 def barcode():
     return render_template('barcode.html')
+# --------------------------->
 
 
+# -----Barcode Results-------->
 @app.route('/barcoderesult', methods=['GET', 'POST'])
 def barcoderesult():
     if request.method == 'POST':
@@ -128,6 +136,7 @@ def barcoderesult():
         if barcode:
             sync_user(username, barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
+# ------------------>
 
 # -------------------------------------------->
 
