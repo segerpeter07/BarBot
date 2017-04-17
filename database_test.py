@@ -189,6 +189,6 @@ if __name__ == '__main__':
     return_data()
     increase_drink_count('hello')
     update_drink('coke')
-    sync_user('pseger1', 'heyo')
+    sync_user('pseger1', '12123132')
     print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))

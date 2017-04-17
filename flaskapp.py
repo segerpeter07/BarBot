@@ -124,6 +124,7 @@ def barcode():
 def barcoderesult():
     if request.method == 'POST':
         barcoderesult = request.form['barcode']
+        username = request.form['username']
         if barcode:
             sync_user('pseger', barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
