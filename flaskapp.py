@@ -103,7 +103,12 @@ def dashboard(firstname=None):
 
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
-    return render_template('drinkbuttons.html')
+    if request.method == 'POST':
+        barcoderesult = request.form['barcode']
+        username = request.form['username']
+        if barcode:
+            sync_user(username, barcoderesult)
+            return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
 
 
 @app.route('/drinkresults', methods=['GET', 'POST'])
@@ -112,10 +117,11 @@ def drink():
         mixers = request.form['mixers']
         alcohol = request.form['alcohol']
         if mixers and alcohol:
+            increase_drink_count(barcode)
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
 
 
-@app.route('/barcode', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def barcode():
     return render_template('barcode.html')
 
