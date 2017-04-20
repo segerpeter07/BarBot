@@ -104,6 +104,11 @@ def dashboard(firstname=None):
         return render_template('wrong_password.html')
 
 
+@app.route('/user/settings', methods=['POST', 'GET'])
+def dashboard_settings():
+    return render_template('dashboard_settings.html', data=return_user('pseger'))
+
+
 # BAR SECTION
 # ----------------------------------------------->
 
