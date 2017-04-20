@@ -4,7 +4,7 @@ Put your Flask app code here.
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from jinja2 import Environment, FileSystemLoader
-from database_test import update_info, return_user, update_drink
+from database_test import update_info, return_user, increase_drink_count
 import time
 import datetime
 # create the application object
@@ -33,13 +33,15 @@ def dashboard(firstname=None):
 def chart():
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    recent_drink = increase_drink_count('hello')
+    labels = ['vodka', 'rum', 'whiskey']
+    values = [recent_drink, recent_drink, recent_drink]
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
 
 @app.route("/settings")
 def settings(firstname=None):
+    firstname = 'natedoggy'
     if request.method == 'POST':
         return redirect(url_for('dashboard', firstname=firstname))
     return render_template('DashBoard_Settings.html')
