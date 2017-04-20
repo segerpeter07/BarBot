@@ -104,24 +104,20 @@ def dashboard(firstname=None):
         return render_template('wrong_password.html')
 
 
-<<<<<<< HEAD
 # BAR SECTION
 # ----------------------------------------------->
 
 # ------------Bar Home---->
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
-<<<<<<< HEAD
     return render_template('drinkbuttons.html')
 # ------------------------->
-=======
     if request.method == 'POST':
         barcoderesult = request.form['barcode']
         username = request.form['username']
         if barcode:
             sync_user(username, barcoderesult)
             return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
->>>>>>> 7b0013720ccac22a3a6d6c574340ed8c6514fa96
 
 
 # -------Drink Results------>
@@ -136,30 +132,28 @@ def drink():
 # -------------------------->
 
 
-<<<<<<< HEAD
 # -------User Sync Home----->
-@app.route('/barcode', methods=['GET','POST'])
-=======
-@app.route('/', methods=['GET','POST'])
->>>>>>> 7b0013720ccac22a3a6d6c574340ed8c6514fa96
+@app.route('/bar', methods=['GET','POST'])
+def home():
+    return render_template('drinkbuttons.html')
+
+
+@app.route('/barcode', methods=['GET', 'POST'])
 def barcode():
     return render_template('barcode.html')
-# --------------------------->
 
 
-# -----Barcode Results-------->
-@app.route('/barcoderesult', methods=['GET', 'POST'])
+@app.route('/barcoderesult',methods=['GET', 'POST'])
 def barcoderesult():
     if request.method == 'POST':
         barcoderesult = request.form['barcode']
-        username = request.form['username']
         if barcode:
-            sync_user(username, barcoderesult)
+            sync_user('pseger', barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
 # ------------------>
 
 # -------------------------------------------->
-=======
+
 @app.route("/chart")
 def chart():
     ts = time.time()
@@ -168,7 +162,6 @@ def chart():
     values = [4, 2, 3]
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
->>>>>>> f3663de616f50a55ec73418d3eaf0a538819cd7f
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
