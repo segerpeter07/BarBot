@@ -11,14 +11,17 @@ to see what has been inserted
 
 import sqlite3 as sql
 import sys
-import bcrypt
-salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'
+import bcrypt   # IBCLUDE INSTALL DEPENDENCY
+salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
 # Drinks Data --------------->
 
 
 def update_drink(drink):
+    """
+    This function takes a drink and decrements the amount of drink based off the type
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM drinks_data')
@@ -26,16 +29,58 @@ def update_drink(drink):
     amount = 0
     for category in data:
         if category[0] == drink:
+            active_drink = category[0]
             amount = category[1]
-    amount = amount - 1
+            if active_drink == 'coke' or 'sprite' or 'tonic' or 'orange' or 'ginger':
+                amount = amount - 4
+            elif active_drink == 'vodka' or 'rum' or 'gin' or 'tequila':
+                amount = amount - 1
     cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
     con.commit()
     con.close()
 
+
+def get_drink_count(drink):
+    """
+    This function takes a drink and returns the amount of that drink that is left
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    for choice in data:
+        if choice[0] == drink:
+            return choice[1]
+
 # --------------------------->
 
 
+def sync_user(username, barcode):
+    """
+    This function takes a username and barcode readin from a reader
+    and syncs the corresponding user account with the barcode.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    for person in data:
+        if person[2] == username:
+            person_barcode = barcode
+    cur.execute('UPDATE account_holder SET barcode=? WHERE username=?', (person_barcode, username))
+    con.commit()
+    con.close()
+
+
 def insert_user(email, username, phone, password):
+    """
+    This function creates a new username with attributes:
+    -email
+    -username
+    -phone number
+    -password
+    based off of the information gathered from the sign up sheet
+    """
     con = sql.connect("database.db")
     cur = con.cursor()
     password = password.encode('utf-8')
@@ -46,18 +91,27 @@ def insert_user(email, username, phone, password):
 
 
 def increase_drink_count(barcode):
+    """
+    This function increases the drinks count for a user based off their
+    linked barcode identity
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
-    cur.execute('SELECT * FROM drinks_data')
+    cur.execute('SELECT * FROM account_holder')
     data = cur.fetchall()
     drinks = 0
     for category in data:
         if category[6] == barcode:
-            drinks = category[5] - 1
-    cur.execute('UPDATE drinks_data SET drinks=? WHERE barcode=?', (drinks, barcode))
+            drinks = category[5] + 1
+    cur.execute('UPDATE account_holder SET drinks=? WHERE barcode=?', (drinks, barcode))
+    con.commit()
+    con.close()
 
 
 def return_data():
+    """
+    Returns all the data in the account_holder table
+    """
     con = sql.connect("database.db")
     cur = con.cursor()
     cur.execute("SELECT * FROM account_holder")
@@ -67,6 +121,9 @@ def return_data():
 
 
 def update_info(username, password):
+    """
+    This function updates a username with a new password and sets them in the database
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     password = password.encode('utf-8')
@@ -77,6 +134,16 @@ def update_info(username, password):
 
 
 def return_user(username):
+    """
+    This function takes a username and returns all the information about them including:
+    -id
+    -email
+    -username
+    -phone
+    -password
+    -number of drinks
+    -barcode identifier
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM account_holder')
@@ -90,6 +157,12 @@ def return_user(username):
 
 
 def chec_password(username, password):
+    """
+    This function takes a username and the entered password and checks to see if
+    the password is correct. It does this by using the global salt and hashing
+    the given password and checking to see if this hashed phrase is the same
+    as what is in the database.
+    """
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM account_holder')
@@ -112,9 +185,9 @@ def chec_password(username, password):
 
 
 if __name__ == '__main__':
-    # insert_account_holder('ljordan51@gmail.com', 'ljordan51', '7145107173', 'gofuckyourself')
-    # insert_user('segerpeter07@gmail.com', 'pseger', '5035446599', 'suckme')
-    # update_info(input('username: '), input('password: '))
     return_data()
     increase_drink_count('hello')
+    update_drink('coke')
+    sync_user('pseger1', '12123132')
+    print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
