@@ -4,6 +4,7 @@ Party captain dashboard
 
 import os
 from flask import Flask, render_template, request
+from database_test import *
 
 app = Flask('flaskapp')
 
@@ -13,14 +14,16 @@ def pcdashboard():
     revenue = 100
     expense = 50
     profit = revenue - expense
-    return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit)
+    return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT)
 
 
 @app.route("/chart")
 def chart():
     labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [[10, 9, 8, 7, 6, 4, 7, 8], [1, 2, 3, 7, 5, 3, 9, 10], [3, 6, 7, 4, 5, 3, 2, 7]]
+    lines = len(values)
     values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('LinePlotTemplate.html', values=values, labels=labels)
+    return render_template('LinePlotTemplate.html', values=values, labels=labels, lines=lines)
 
 
 @app.route('/barry', methods=['GET', 'POST'])
