@@ -127,19 +127,14 @@ def drink():
 
 # -------User Sync Home----->
 
-@app.route('/barcode', methods=['GET','POST'])
-def barcode():
-    return render_template('barcode.html')
-
-
-@app.route('/bar', methods=['GET','POST'])
-def home():
-    return render_template('drinkbuttons.html')
-
-
 @app.route('/barcode', methods=['GET', 'POST'])
 def barcode():
     return render_template('barcode.html')
+
+
+@app.route('/bar', methods=['GET', 'POST'])
+def bar():
+    return render_template('drinkbuttons.html')
 
 
 @app.route('/barcoderesult',methods=['GET', 'POST'])
