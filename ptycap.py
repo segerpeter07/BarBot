@@ -17,13 +17,22 @@ def pcdashboard():
     return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT)
 
 
-@app.route("/chart")
-def chart():
+@app.route("/liney")
+def LinePlot():
+    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    return render_template('LinePlotTemplate.html', values=values, labels=labels)
+
+
+@app.route("/multi")
+def MultiLinePlot():
     labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
     values = [[10, 9, 8, 7, 6, 4, 7, 8], [1, 2, 3, 7, 5, 3, 9, 10], [3, 6, 7, 4, 5, 3, 2, 7]]
     lines = len(values)
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('LinePlotTemplate.html', values=values, labels=labels, lines=lines)
+    values = [10, 9, 8, 7, 6, 4, 7, 8, 1, 2, 3, 7, 5, 3, 9, 10, 3, 6, 7, 4, 5, 3, 2, 7]
+    lines = 3
+    elements = len(values)
+    return render_template('MultiLinePlot.html', values=values, labels=labels, lines=lines, elements=elements)
 
 
 @app.route('/barry', methods=['GET', 'POST'])
