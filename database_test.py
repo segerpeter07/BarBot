@@ -11,12 +11,12 @@ to see what has been inserted
 
 import sqlite3 as sql
 import sys
-import bcrypt   # IBCLUDE INSTALL DEPENDENCY
+import bcrypt   # INCLUDE INSTALL DEPENDENCY
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
-# Drinks Data --------------->
 
+# Drinks Data --------------->
 
 def update_drink(drink):
     """
