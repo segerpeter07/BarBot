@@ -105,9 +105,9 @@ def dashboard(firstname=None):
 @app.route("/chart")
 def chart():
     ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    labels = ['vodka', 'rum', 'whiskey']
-    values = [4, 2, 3]
+    st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+    labels = [st, st, st, st]
+    values = [1, 3, 4, 5]
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
 
