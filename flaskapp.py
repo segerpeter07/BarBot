@@ -3,11 +3,14 @@ Simple "Hello, World" application using Flask
 """
 
 import os
+import time
+import datetime
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from database_test import *
+
 
 app = Flask('flaskapp')
 
@@ -28,6 +31,7 @@ def login():
         else:
             return render_template('dashboard.html')
 # --------------------->
+            return render_template('dashboard_test.html')
 
 
 # <-----LOGOUT PAGE-------
@@ -87,6 +91,7 @@ def confirm_reset():
 def dashboard(firstname=None):
     username = request.form['username']
     password = request.form['password']
+    firstname = username
     # Check if user exists
     if return_user(username) is None:
         return render_template('wrong_password.html')
@@ -94,11 +99,12 @@ def dashboard(firstname=None):
     # user_pass = return_password(username)
     if chec_password(username, password):
         session['logged_in'] = True
-        return render_template('dashboard.html', firstname=firstname)
+        return render_template('dashboard_test.html', firstname=firstname)
     else:
         return render_template('wrong_password.html')
 
 
+<<<<<<< HEAD
 # BAR SECTION
 # ----------------------------------------------->
 
@@ -153,6 +159,16 @@ def barcoderesult():
 # ------------------>
 
 # -------------------------------------------->
+=======
+@app.route("/chart")
+def chart():
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    labels = ['vodka', 'rum', 'whiskey']
+    values = [4, 2, 3]
+    return render_template('LinePlotTemplate.html', values=values, labels=labels)
+
+>>>>>>> f3663de616f50a55ec73418d3eaf0a538819cd7f
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
