@@ -1,2 +1,1 @@
-database.db
-__pycache__
+databas.db
