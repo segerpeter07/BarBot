@@ -104,11 +104,6 @@ def dashboard(firstname=None):
         return render_template('wrong_password.html')
 
 
-@app.route('/user/settings', methods=['POST', 'GET'])
-def dashboard_settings():
-    return render_template('dashboard_settings.html', data=return_user('pseger'))
-
-
 # BAR SECTION
 # ----------------------------------------------->
 
@@ -132,21 +127,15 @@ def drink():
 
 # -------User Sync Home----->
 
-<<<<<<< HEAD
-<<<<<<< HEAD:flaskapp.py
-
-@app.route('/bar', methods=['GET','POST'])
-=======
-=======
->>>>>>> d5f199d17b618e3e43e2b2e04c04e6dcc4174b5b
-@app.route('/barcode', methods=['GET', 'POST'])
-def barcode():
-    return render_template('barcode.html')
-
 
 @app.route('/bar', methods=['GET','POST'])
 def bar():
     return render_template('drinkbuttons.html')
+
+
+@app.route('/barcode', methods=['GET', 'POST'])
+def barcode():
+    return render_template('barcode.html')
 
 
 @app.route('/barcoderesult',methods=['GET', 'POST'])
