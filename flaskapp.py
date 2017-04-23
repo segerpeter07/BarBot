@@ -127,13 +127,9 @@ def drink():
 
 # -------User Sync Home----->
 
-@app.route('/barcode', methods=['GET','POST'])
-def barcode():
-    return render_template('barcode.html')
-
 
 @app.route('/bar', methods=['GET','POST'])
-def home():
+def bar():
     return render_template('drinkbuttons.html')
 
 
@@ -156,10 +152,15 @@ def barcoderesult():
 
 @app.route("/chart")
 def chart():
-    ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-    labels = [st, st, st, st]
-    values = [1, 3, 4, 5]
+    write_drink_timestamp('suh')
+    st = get_drink_timestamp('suh')
+    try:
+        times
+    except NameError:
+        times = None
+    times = [times, st]
+    labels = times
+    values = range(len(times))
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
 

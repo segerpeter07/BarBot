@@ -12,6 +12,8 @@ to see what has been inserted
 import sqlite3 as sql
 import sys
 import bcrypt   # INCLUDE INSTALL DEPENDENCY
+import time
+import datetime
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
@@ -183,6 +185,41 @@ def chec_password(username, password):
     print(state)
     return state
 
+
+def write_drink_timestamp(barcode):
+    """
+    This function increases the drinks count for a user based off their
+    linked barcode identity
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM time_drinks')
+    data = cur.fetchall()
+    for category in data:
+        if category[0] == barcode:
+            ts = time.time()
+            st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+            newtime = st
+    cur.execute('UPDATE time_drinks SET timestamp=? WHERE barcode=?', (newtime, barcode))
+    con.commit()
+    con.close()
+
+
+def get_drink_timestamp(barcode):
+    """
+    This function increases the drinks count for a user based off their
+    linked barcode identity
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM time_drinks')
+    data = cur.fetchall()
+    for category in data:
+        if category[0] == barcode:
+            return category[1]
+    con.commit()
+    con.close()
+    return None
 
 if __name__ == '__main__':
     return_data()
