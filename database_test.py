@@ -145,6 +145,10 @@ def return_user(username):
     -password
     -number of drinks
     -barcode identifier
+    -height
+    -weight
+    -age
+    -gender
     """
     con = sql.connect('database.db')
     cur = con.cursor()
