@@ -132,13 +132,7 @@ def drink():
 
 # -------User Sync Home----->
 
-<<<<<<< HEAD
-<<<<<<< HEAD:flaskapp.py
 
-@app.route('/bar', methods=['GET','POST'])
-=======
-=======
->>>>>>> d5f199d17b618e3e43e2b2e04c04e6dcc4174b5b
 @app.route('/barcode', methods=['GET', 'POST'])
 def barcode():
     return render_template('barcode.html')
