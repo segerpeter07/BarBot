@@ -14,6 +14,8 @@ import sys
 import bcrypt   # INCLUDE INSTALL DEPENDENCY
 import time
 import datetime
+import random
+import string
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
@@ -202,11 +204,68 @@ def write_drink_timestamp(barcode):
     for category in data:
         if category[0] == barcode:
             ts = time.time()
-            st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-            newtime = st
-    cur.execute('UPDATE time_drinks SET timestamp=? WHERE barcode=?', (newtime, barcode))
+            #st = time.strftime("%Y%M%D%H%M%S", time.gmtime(time.time()))
+            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5 ))
+            newtime = ts
+    cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
+    cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
     con.commit()
     con.close()
+
+
+tablesToIgnore = ["sqlite_sequence"]
+
+outputFilename = None
+
+
+def Print(msg):
+    if (outputFilename!=None):
+        outputFile = open(outputFilename, 'a')
+        print >> outputFile, msg
+        outputFile.close()
+    else:
+        print(msg)
+
+
+def Describe(dbFile):
+    connection = sql.connect(dbFile)
+    cursor = connection.cursor()
+
+
+    totalTables = 0
+    totalColumns = 0
+    totalRows = 0
+    totalCells = 0
+    # Get List of Tables:
+    tableListQuery = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY Name"
+    cursor.execute(tableListQuery)
+    tables = map(lambda t: t[0], cursor.fetchall())
+    for table in tables:
+        if (table in tablesToIgnore):
+            continue
+
+        columnsQuery = "PRAGMA table_info(%s)" % table
+        cursor.execute(columnsQuery)
+        numberOfColumns = len(cursor.fetchall())
+        if table == "time_drinks":
+            return numberOfColumns
+        rowsQuery = "SELECT Count() FROM %s" % table
+        cursor.execute(rowsQuery)
+        numberOfRows = cursor.fetchone()[0]
+        numberOfCells = numberOfColumns*numberOfRows
+        totalTables += 1
+        totalColumns += numberOfColumns
+        totalRows += numberOfRows
+        totalCells += numberOfCells
+
+    Print("")
+    Print("Number of Tables:\t%d" % totalTables)
+    Print("Total Number of Columns:\t%d" % totalColumns)
+    Print("Total Number of Rows:\t%d" % totalRows)
+    Print("Total Number of Cells:\t%d" % totalCells)
+    return totalColumns
+    cursor.close()
+    connection.close()
 
 
 def get_drink_timestamp(barcode):
@@ -214,21 +273,34 @@ def get_drink_timestamp(barcode):
     This function increases the drinks count for a user based off their
     linked barcode identity
     """
+
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM time_drinks')
     data = cur.fetchall()
+    numberOfColumns = Describe('database.db')
+    print(numberOfColumns)
+    times = []
+    print('a')
     for category in data:
+        print('b')
         if category[0] == barcode:
-            return category[1]
+            print('c')
+            for i in range(1, numberOfColumns-1):
+                value = category[i]
+                times.append(value)
+            print(times)
+            return times
     con.commit()
     con.close()
     return None
 
+
 if __name__ == '__main__':
-    return_data()
-    increase_drink_count('hello')
-    update_drink('coke')
-    sync_user('pseger1', '12123132')
-    print(get_drink_count(input('Drink: ')))
+    #return_data()
+    #increase_drink_count('hello')
+    #update_drink('coke')
+    #sync_user('pseger1', '12123132')
+    #print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
+    get_drink_timestamp('suh')

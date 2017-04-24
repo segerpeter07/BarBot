@@ -104,11 +104,6 @@ def dashboard(firstname=None):
         return render_template('wrong_password.html')
 
 
-@app.route('/user/settings', methods=['POST', 'GET'])
-def dashboard_settings():
-    return render_template('dashboard_settings.html', data=return_user('pseger'))
-
-
 # BAR SECTION
 # ----------------------------------------------->
 
@@ -133,14 +128,14 @@ def drink():
 # -------User Sync Home----->
 
 
-@app.route('/barcode', methods=['GET', 'POST'])
-def barcode():
-    return render_template('barcode.html')
-
-
 @app.route('/bar', methods=['GET','POST'])
 def bar():
     return render_template('drinkbuttons.html')
+
+
+@app.route('/barcode', methods=['GET', 'POST'])
+def barcode():
+    return render_template('barcode.html')
 
 
 @app.route('/barcoderesult',methods=['GET', 'POST'])
@@ -157,14 +152,13 @@ def barcoderesult():
 
 @app.route("/chart")
 def chart():
-    '''
     write_drink_timestamp('suh')
-    '''
-    st = get_drink_timestamp('assuh')
-    print(st)
-    times = st
-    times = [time.strftime("%D %H:%M:%S", time.gmtime(x)) for x in times]
-    print(times)
+    st = get_drink_timestamp('suh')
+    try:
+        times
+    except NameError:
+        times = None
+    times = [times, st]
     labels = times
     values = range(len(times))
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
