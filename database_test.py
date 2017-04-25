@@ -76,7 +76,7 @@ def sync_user(username, barcode):
     con.close()
 
 
-def insert_user(email, username, phone, password):
+def insert_user(email, username, phone, password, height, weight, age, gender):
     """
     This function creates a new username with attributes:
     -email
@@ -89,7 +89,7 @@ def insert_user(email, username, phone, password):
     cur = con.cursor()
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
-    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode) VALUES (?,?,?,?,?,?)", (email, username, phone, password, 0,''))
+    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, '', height, weight, age, gender))
     con.commit()
     con.close()
 
@@ -124,7 +124,7 @@ def return_data():
     con.close()
 
 
-def update_info(username, password):
+def update_password(username, password):
     """
     This function updates a username with a new password and sets them in the database
     """
@@ -133,6 +133,27 @@ def update_info(username, password):
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
     cur.execute('UPDATE account_holder SET password=? WHERE username=?', (password, username))
+    con.commit()
+    con.close()
+
+
+def update_settings(email, username, phone, height, weight, age, gender):
+    """
+    This function updates the users' settings
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('UPDATE account_holder SET email=? WHERE username=?', (email, username))
+    con.commit()
+    cur.execute('UPDATE account_holder SET phone=? WHERE username=?', (phone, username))
+    con.commit()
+    cur.execute('UPDATE account_holder SET height=? WHERE username=?', (height, username))
+    con.commit()
+    cur.execute('UPDATE account_holder SET weight=? WHERE username=?', (weight, username))
+    con.commit()
+    cur.execute('UPDATE account_holder SET age=? WHERE username=?', (age, username))
+    con.commit()
+    cur.execute('UPDATE account_holder SET gender=? WHERE username=?', (gender, username))
     con.commit()
     con.close()
 

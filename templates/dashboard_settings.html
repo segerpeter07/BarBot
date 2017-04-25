@@ -46,7 +46,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
+            <li><a href="/user">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Help</a></li>
           </ul>
@@ -65,15 +65,76 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1>Settings:</h1>
-        <h3>Username: </h3><p>{{data[2]}}</p>
-        <h3>Phone Number: </h3><p>{{data[3]}}</p>
-        <h3>Age: </h3><p>{{data[9]}}</p>
-        <h3>Weight: </h3><p>{{data[8]}}</p>
-        <h3>Height: </h3><p>{{data[7]}}</p>
-        <h3>Gender: </h3><p>{{data[10]}}</p>
-        <button type="button" class="btn btn-default">Edit</button>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='current'>
+        <h1>Current Settings</h1>
+
+        <h3>Email</h3>
+        <p class="text-primary">{{data[1]}}</p>
+
+        <h3>Phone</h3>
+        <p class="text-primary">{{data[3]}}</p>
+
+        <h3>Height</h3>
+        <p class="text-primary">{{data[7]}}</p>
+
+        <h3>Weight</h3>
+        <p class="text-primary">{{data[8]}}</p>
+
+        <h3>Age</h3>
+        <p class="text-primary">{{data[9]}}</p>
+
+        <h3>Gender</h3>
+        <p class="text-primary">{{data[10]}}</p>
+
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='change'>
+        <h1>Change Settings Here</h1>
+        <p>All fields must be filled, even if information doesn't change.</p>
+        <form action="/user/settings/confirmation" method="post" class="">
+          <h2>Please Enter Username to Continue</h2>
+          <label for="username" class="sr-only">Username</label>
+          <input type="username" name="username" class="form-control" placeholder="Username" autofocus required>
+          <br>
+          <br>
+
+          <h3>Email</h3>
+          <label for="email" class="sr-only">Email</label>
+          <input type="email" name="email" class="form-control" placeholder="Email" required>
+
+          <h3>Phone Number</h3>
+          <label for="phone" class="sr-only">Phone</label>
+          <input type="phone" name="phone" class="form-control" placeholder="Phone Number" required>
+
+
+          <h3>Height (inch)</h3>
+          <label for="height" class="sr-only">Height</label>
+          <input type="height" name="height" class="form-control" placeholder="Height" required>
+
+          <h3>Weight (lbs)</h3>
+          <label for="weight" class="sr-only">Weight</label>
+          <input type="weight" name="weight" class="form-control" placeholder="Weight" required>
+
+          <h3>Age</h3>
+          <label for="age" class="sr-only">Age</label>
+          <input type="age" name="age" class="form-control" placeholder="Age" required>
+
+          <br>
+          <h3>Gender Identification</h3>
+          <div class="form-check" data-toggle="buttons-radio" name="gender" required>
+            <label class="btn btn">
+              <input type="radio" value="male" autocomplete="off" name='gender'> Male
+            </label>
+            <label class="btn btn">
+              <input type="radio" value="female" autocomplete="off" name='gender'> Female
+            </label>
+            <label class="btn btn">
+              <input type="radio" value="female" autocomplete="off" name='gender'> Prefer not to disclose
+            </label>
+          </div>
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
+
       </div>
     </div>
 

@@ -19,6 +19,11 @@ app = Flask('flaskapp')
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
+
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
 # ---------------------->
 
 
@@ -57,8 +62,12 @@ def confirmation():
     username = request.form['username']
     phone = request.form['phone']
     password = request.form['password']
+    height = request.form['height']
+    weight = request.form['weight']
+    age = request.form['age']
+    gender = request.form['gender']
     if return_user(username) is None:
-        insert_user(email, username, phone, password)
+        insert_user(email, username, phone, password, height, weight, age, gender)
         return render_template('confirmation.html')
     else:
         return render_template('invalid.html')
@@ -80,7 +89,7 @@ def confirm_reset():
     password = request.form['password']
     user = return_user(username)
     if user[3] == phone:
-        update_info(username, password)
+        update_password(username, password)
     return render_template('confirmation.html')
 # ------------------------->
 
@@ -107,6 +116,20 @@ def dashboard(firstname=None):
 @app.route('/user/settings', methods=['POST', 'GET'])
 def dashboard_settings():
     return render_template('dashboard_settings.html', data=return_user('pseger'))
+
+
+@app.route('/user/settings/confirmation', methods=['POST', 'GET'])
+def dashboard_settings_confirmation():
+    username = request.form['username']
+    email = request.form['email']
+    phone = request.form['phone']
+    height = request.form['height']
+    weight = request.form['weight']
+    age = request.form['age']
+    gender = request.form['gender']
+
+    update_settings(email, username, phone, height, weight, age, gender)
+    return render_template('dashboard_settings.html', data=return_user(username))
 
 
 # BAR SECTION

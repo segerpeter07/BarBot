@@ -25,8 +25,10 @@
       <h1>Welcome to BarBot</h1>
 
       <form action="/new_user/confirmation" method="post" class="form-signin">
-        <h3 class="form-signin-heading">Sign Up Below</h3>
 
+        <h3>Account Information</h3>
+        <p>This contains all the information that will be used to identify you as a person. All your information is kept safe on our servers and your passwords are never stored in plain text!</p>
+        <br>
         <p>Email</p>
         <label for="email" class="sr-only">Email</label>
         <input type="email" name="email" class="form-control" placeholder="Email" required autofocus>
@@ -40,8 +42,38 @@
         <input type="phone" name="phone" class="form-control" placeholder="Phone Number" required>
 
         <p>Password</p>
-        <label for="username" class="sr-only">Password</label>
+        <label for="password" class="sr-only">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+        <br>
+        <h3>Personal Information</h3>
+        <p>This contains all the information is used to calculate your blood alcohol content(BAC). The Party Captain cannot see any of your information.</p>
+        <br>
+        <p>Height (inch)</p>
+        <label for="height" class="sr-only">Height</label>
+        <input type="height" name="height" class="form-control" placeholder="Height" required>
+
+        <p>Weight (lbs)</p>
+        <label for="weight" class="sr-only">Weight</label>
+        <input type="weight" name="weight" class="form-control" placeholder="Weight" required>
+
+        <p>Age</p>
+        <label for="age" class="sr-only">Age</label>
+        <input type="age" name="age" class="form-control" placeholder="Age" required>
+
+        <br>
+        <p>Gender Identification</p>
+        <div class="form-check" data-toggle="buttons-radio" name="gender">
+          <label class="btn btn">
+            <input type="radio" value="male" autocomplete="off" name='gender'> Male
+          </label>
+          <label class="btn btn">
+            <input type="radio" value="female" autocomplete="off" name='gender'> Female
+          </label>
+          <label class="btn btn">
+            <input type="radio" value="not disclosed" autocomplete="off" name='gender'> Prefer not to disclose
+          </label>
+        </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
