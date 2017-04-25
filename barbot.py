@@ -27,16 +27,34 @@ def about():
 # ---------------------->
 
 
-# <-----HOME PAGE-------
+# <-----LOGIN PAGE-------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'GET':
         if not session.get('logged_in'):
             return render_template('login.html')
         else:
-            return render_template('dashboard.html')
+            return redirect('/loginconfirm')
 # --------------------->
-            return render_template('dashboard_test.html')
+
+
+# <-----LOGIN CONFIRM PAGE-------
+@app.route('/loginconfirm', methods=['GET', 'POST'])
+def login_confirm():
+    username = request.form['username']
+    password = request.form['password']
+    firstname = username
+    # Check if user exists
+    if return_user(username) is None:
+        return render_template('wrong_password.html')
+    else:
+        # user_pass = return_password(username)
+        if check_password(username, password):
+            session['logged_in'] = True
+            return redirect('/user/%s' % (username))
+        else:
+            return render_template('wrong_password.html')
+# --------------------->
 
 
 # <-----LOGOUT PAGE-------
@@ -95,41 +113,38 @@ def confirm_reset():
 
 
 # -------Dashboard--------->
-@app.route('/user', methods=['POST', 'GET'])
-@app.route('/user/<string:firstname>', methods=['POST', 'GET'])
-def dashboard(firstname=None):
-    username = request.form['username']
-    password = request.form['password']
-    firstname = username
-    # Check if user exists
-    if return_user(username) is None:
-        return render_template('wrong_password.html')
-
-    # user_pass = return_password(username)
-    if chec_password(username, password):
-        session['logged_in'] = True
-        return render_template('dashboard_test.html', firstname=firstname)
-    else:
-        return render_template('wrong_password.html')
+# @app.route('/user', methods=['POST', 'GET'])
+@app.route('/user/<string:username>', methods=['POST', 'GET'])
+def dashboard():
+    firstname = request.args.get()
+    # firstname = username
+    return render_template('dashboard_test.html', firstname=firstname)
 
 
 @app.route('/user/settings', methods=['POST', 'GET'])
 def dashboard_settings():
-    return render_template('dashboard_settings.html', data=return_user('pseger'))
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        return render_template('dashboard_settings.html', data=return_user('pseger'))
 
 
 @app.route('/user/settings/confirmation', methods=['POST', 'GET'])
 def dashboard_settings_confirmation():
-    username = request.form['username']
-    email = request.form['email']
-    phone = request.form['phone']
-    height = request.form['height']
-    weight = request.form['weight']
-    age = request.form['age']
-    gender = request.form['gender']
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        username = request.form['username']
+        email = request.form['email']
+        phone = request.form['phone']
+        height = request.form['height']
+        weight = request.form['weight']
+        age = request.form['age']
+        gender = request.form['gender']
 
-    update_settings(email, username, phone, height, weight, age, gender)
-    return render_template('dashboard_settings.html', data=return_user(username))
+        update_settings(email, username, phone, height, weight, age, gender)
+
+        return render_template('dashboard_settings.html', data=return_user(username))
 
 
 # BAR SECTION

@@ -185,7 +185,7 @@ def return_user(username):
     return None
 
 
-def chec_password(username, password):
+def check_password(username, password):
     """
     This function takes a username and the entered password and checks to see if
     the password is correct. It does this by using the global salt and hashing
