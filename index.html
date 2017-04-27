@@ -12,11 +12,11 @@
     <title>Barbot - About</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="static/style/bootstrap.min.css">
 
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/carousel.css')}}">
+    <link rel="stylesheet" type="text/css" href="static/style/carousel.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/">BarBot</a>
+              <a class="navbar-brand" href="#">BarBot</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
@@ -77,10 +77,10 @@
       <div class="row featurette">
         <div class="col-md-7" id='technologies'>
           <h2 class="featurette-heading">BarBot Environment</h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <p class="lead">Barbot was created with the intention of making a safe party environment that was easy to establish and easy to maintain during the party. At the core of Barbot is a database with all the users’ information that they sync with a barcode at the party. Throughout the night, this barcode is used at the bar to tally the number of drinks which is used with advanced algorithms to track blood alcohol content and maintain safe drinking levels. Hosts have access to an advanced suite of visualization tools and revenue modeling to ensure that they can host a safe, and profitable party.</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="images/architecture.jpg" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -89,10 +89,10 @@
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5" id='bar'>
           <h2 class="featurette-heading">The Bar</h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <p class="lead">The BarBot interface includes a function for ordering drinks with ease and comfort. The user can scan their personal barcode at the machine, select an alcohol and a mixer of their preference from the eye-catching, multicolored interface, and the BarBot will send this information to the machine which will dispense the user’s desired drink. In addition to this function, the BarBot will update the drink count for that particular barcode. Using this data, the timestamp at which the drink was ordered, and certain physical attributes related to the user, we can calculate an average BAC graph over time of every user. </p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="images/bar.png" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -101,10 +101,11 @@
       <div class="row featurette">
         <div class="col-md-7" id='users'>
           <h2 class="featurette-heading">User Accounts</h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <p class="lead">We wanted users to be able to visualize data about themselves throughout the party. This includes information about the user’s BAC, recent drinks, and their drink cutoff limit. We want the users to be able to tailor the experience to their preference, so we have a settings page where the users can update their personal information so our BAC model is more accurate, and users will be able to set a personal limit on the number of drinks they wish to consume at any given party. The architecture for all of this is the ability to pull data from our main database using SQLite, a python-centric database structure. To get the information about drinks, we use the bar module to take a timestamp every time a user scans their barcode to get a drink. This updates the database, and the database is set up with a flexible structure so it can handle any number of drinking events. We have a server-side function that takes a users number of drinks and the time a drink was taken to update the BAC of the user. This gets displayed on the user dashboard. We hope to include even more features for users to enhance their party experience.
+</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="images/login.png" alt="Generic placeholder image">
         </div>
       </div>
 
@@ -113,10 +114,10 @@
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5" id='pc'>
           <h2 class="featurette-heading">Party Captain Dashboard</h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <p class="lead">The party captain dashboard provides a comprehensive view of relevant analytics such as partygoer BACs, profit and loss, and bar inventory. This live data visualization provides peace of mind and control to the party captain and increases the level of safety for everyone in attendance. In addition, the dashboard enables the party captain to manage useful bar settings such as cutting people off, setting prices, opening and closing the bar, and setting notifications. The dashboard is part of a flask app which utilizes sqlite databasing, Chart.js interactive graphs and a python backend for the BAC and P&L algorithms.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+          <img class="featurette-image img-responsive center-block" src="images/pcDash.png" alt="Generic placeholder image">
         </div>
       </div>
 
