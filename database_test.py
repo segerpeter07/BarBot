@@ -296,6 +296,22 @@ def get_drink_timestamp(barcode):
     return None
 
 
+def clear_times():
+    """
+    This function clears the timestamps and reintializes the table
+    """
+
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM time_drinks')
+    data = cur.fetchall()
+    cur.execute('drop table if exists time_drinks')
+    con.commit()
+    cur.execute('create table if not exists time_drinks (barcode TEXT)')
+    con.commit()
+    con.close
+
+
 if __name__ == '__main__':
     #return_data()
     #increase_drink_count('hello')
@@ -303,4 +319,4 @@ if __name__ == '__main__':
     #sync_user('pseger1', '12123132')
     #print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
-    get_drink_timestamp('suh')
+    clear_times()
