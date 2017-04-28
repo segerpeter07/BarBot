@@ -10,6 +10,7 @@ from flask import render_template
 from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from database_test import *
+from flask_debugtoolbar import DebugToolbarExtension
 
 
 app = Flask('flaskapp')
@@ -43,7 +44,6 @@ def login():
 def login_confirm():
     username = request.form['username']
     password = request.form['password']
-    firstname = username
     # Check if user exists
     if return_user(username) is None:
         return render_template('wrong_password.html')
@@ -115,10 +115,11 @@ def confirm_reset():
 # -------Dashboard--------->
 # @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
-def dashboard():
-    firstname = request.args.get()
+def dashboard(username):
+    # username = request.args.get()
+    # firstname = 'pseger'
     # firstname = username
-    return render_template('dashboard_test.html', firstname=firstname)
+    return render_template('dashboard_test.html', firstname=username)
 
 
 @app.route('/user/settings', methods=['POST', 'GET'])
@@ -213,4 +214,9 @@ if __name__ == '__main__':
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
+
+    app.debug = True
+    # app.debug = False
+    toolbar = DebugToolbarExtension(app)
+
     app.run('localhost', port=PORT)
