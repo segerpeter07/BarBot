@@ -317,6 +317,70 @@ def get_drink_timestamp(barcode):
     return None
 
 
+# ------------ Admin Login ------>
+def insert_admin(username, password):
+    """
+    This function creates a new admin with attributes:
+    -username
+    -password
+    based off of the information gathered from the sign up sheet
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    password = password.encode('utf-8')
+    password = bcrypt.hashpw(password, salt)
+    cur.execute("INSERT INTO admin (username,password) VALUES (?,?)", (username, password))
+    con.commit()
+    con.close()
+
+
+def return_admin(username):
+    """
+    This function takes a username and checks if they exist
+    and returns all the information about them including:
+    -id
+    -username
+    -password
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM admin')
+    data = cur.fetchall()
+    for person in data:
+        if person[0] == username:
+            return(person)
+    con.commit()
+    con.close()
+    return None
+
+
+def check_admin(username, password):
+    """
+    This function takes a username and the entered password and checks to see if
+    the password is correct. It does this by using the global salt and hashing
+    the given password and checking to see if this hashed phrase is the same
+    as what is in the database.
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM admin')
+    data = cur.fetchall()
+    state = False   # Match state, by default false
+    for person in data:
+        if person[0] == username:
+            real_password = person[1]   # Hashed password for asociated match person
+    password = password.encode('utf-8')     # Encode given password
+    comp_password = bcrypt.hashpw(password, salt)
+    print(comp_password)
+    print(real_password)
+    if real_password == comp_password:      # Compare given password and what the db says
+        state = True
+    con.commit()
+    con.close()
+
+    print(state)
+    return state
+
 if __name__ == '__main__':
     #return_data()
     #increase_drink_count('hello')

@@ -113,25 +113,21 @@ def confirm_reset():
 
 
 # -------Dashboard--------->
-# @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard(username):
-    # username = request.args.get()
-    # firstname = 'pseger'
-    # firstname = username
     return render_template('dashboard_test.html', firstname=username)
 
 
-@app.route('/user/settings', methods=['POST', 'GET'])
-def dashboard_settings():
+@app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
+def dashboard_settings(username):
     if not session.get('logged_in'):
         return redirect('/login')
     else:
-        return render_template('dashboard_settings.html', data=return_user('pseger'))
+        return render_template('dashboard_settings.html', data=return_user(username))
 
 
-@app.route('/user/settings/confirmation', methods=['POST', 'GET'])
-def dashboard_settings_confirmation():
+@app.route('/user/<string:username>/settings/confirmation', methods=['POST', 'GET'])
+def dashboard_settings_confirmation(username):
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -209,13 +205,75 @@ def chart():
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
 
+# ------------Party Captain Section---------------------->
+
+# -------New User-------->
+@app.route('/new_admin', methods=['GET'])
+def new_admin():
+    if 'GET':
+        return render_template('newadmin.html')
+# ------------------>
+
+
+# -----Confirmation Page---->
+@app.route('/new_admin/confirmation', methods=['GET','POST'])
+def admin_confirmation():
+    username = request.form['username']
+    password = request.form['password']
+    if return_admin(username) is None:
+        insert_admin(username, password)
+        return render_template('adminlogin.html')
+    else:
+        return render_template('invalid.html')
+# ---------------------->
+
+
+# <-----PC LOGIN PAGE-------
+@app.route('/adminlogin', methods=['GET', 'POST'])
+def admin_login():
+    if 'GET':
+        if not session.get('logged_in'):
+            return render_template('adminlogin.html')
+        else:
+            return redirect('/adminloginconfirm')
+# --------------------->
+
+
+# <-----PC LOGIN CONFIRM PAGE-------
+@app.route('/adminloginconfirm', methods=['GET', 'POST'])
+def admin_login_confirm():
+    username = request.form['username']
+    password = request.form['password']
+    # Check if user exists
+    if return_admin(username) is None:
+        return render_template('wrong_password.html')
+    else:
+        # user_pass = return_password(username)
+        if check_admin(username, password):
+            session['logged_in'] = True
+            return redirect('/admin/%s' % (username))
+        else:
+            return render_template('wrong_password.html')
+# --------------------->
+
+
+# -------Dashboard--------->
+@app.route('/admin/<string:username>', methods=['POST', 'GET'])
+def pc_dashboard(username):
+    return render_template('pcdash.html', firstname=username)
+
+
+# ------------------------------>
+
+
+
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
     HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
 
-    app.debug = True
+    app.debug = False
     # app.debug = False
     toolbar = DebugToolbarExtension(app)
 
