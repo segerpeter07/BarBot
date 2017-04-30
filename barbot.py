@@ -116,7 +116,7 @@ def confirm_reset():
 # @app.route('/user', methods=['POST', 'GET'])
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard():
-    firstname = request.args.get()
+    firstname = request.args.get('username')
     # firstname = username
     return render_template('dashboard_test.html', firstname=firstname)
 
