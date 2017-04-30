@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>BarBot - Admin</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.min.css')}}">
+
+    <!-- Style for this page only -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/signin.css')}}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <p><a class="btn btn-default" href="/" role="button">Home &raquo;</a></p>
+
+      <form action="/new_admin/confirmation" method="post" class="form-signin">
+        <h1>Create New Admin</h1>
+        <h3 class="form-signin-heading">Please enter information</h3>
+
+        <label for="name" class="sr-only">Username</label>
+        <input type="name" name="username" class="form-control" placeholder="Username" required autofocus>
+
+        <!-- <label for="name" class="sr-only">Last Name</label>
+        <input type="name" name="lastname" class="form-control" placeholder="Last Name" required> -->
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" href = "{{firstname}}">Add Admin</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="Bootstrap/js/bootstrap.js"></script>
+  </body>
+</html>
