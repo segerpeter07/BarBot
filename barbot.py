@@ -149,6 +149,7 @@ def barcoderesult():
         barcoderesult = request.form['barcode']
         if barcode:
             sync_user('pseger', barcoderesult)
+            write_drink_timestamp(barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
 # ------------------>
 
