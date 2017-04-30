@@ -10,8 +10,8 @@ Vm_female = 0.480/10/60  # g/dL-min
 Km_male = 0.380/10  # g/dL
 Km_female = 0.405/10  # g/dL
 lbm_density = 1.1*100  # overall density of lean body mass in g/dL or g/cm3
-lbm_per_male = .79  # average lean body mass percentage for males, range 76-82
-lbm_per_female = .72  # average lean body mass percentage for females, range 69-75
+lbm_per_male = .79  # average lean body mass percentage for males, range .76-.82
+lbm_per_female = .72  # average lean body mass percentage for females, range .69-.75
 
 
 def rate(bac, t, height, weight, gender, drink_times):
