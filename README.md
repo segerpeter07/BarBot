@@ -1,19 +1,47 @@
 # The BarBot
 
 ## Description:
-“What does it do”, including some context
+BarBot provides a safe, convenient way to run a party. We provide a comprehensive party running suite of tools for users and hosts including advanced drink tracking and powerful visualization tools.
+
+More information about the project can be found [here](http://peterhenryseger.com/BarBot/)
 
 ## Authors:
-Could include links to e.g. personal portfolio site.
-Includes attribution for code you did not write.
+System Architect - Peter Seger @segerpeter07
+
+Bar Developer - Kian Raissian @kianraissian
+
+Party Captain Developer - Lucky Jordan @ljordan51
+
+User Dashboard Developer - Nate Lepore @NathanLepore
 
 ## Getting Started:
-Download instructions, optionally including versioning information and/or checksums.
-Installation instructions, including any required dependencies. You may assume that users start with the same environment you had on day 1 of the class. If your code depends on additional Ubuntu packages that are installed via apt-get install, include a sudo apt-get install x y z one-liner in the README. If you installed additional Python packages, list these in a requirements.txt file, and include a sudo pip install -r requirements.txt one-liner in the README.
+To get started, these installs are necessary:
+
+```
+$ sudo pip3 install Flask
+$ sudo pip3 install bcrypt
+```
+Optionally you can add the flask_debugtoolbar which is very helpful for debugging.
+```
+sudo pip3 install flask_debugtoolbar
+```
+All the CSS in this project is from Bootstrap, so having this information is imperative. [Download Here.](http://getbootstrap.com/getting-started/#download) It is recommended to go with the pre-compiled Bootstrap, but a CSS compiler can also be used.
+
+The Database can be built by doing these steps:
+```
+$ sqlite3 database.db < schema.sql
+```
+To access the database and to see what is inside it, you can do the following:
+```
+$ sqlite3
+$ .help
+$ .open database.db
+$ .read database.db
+```
+It is HIGHLY recommended to download a database viewing software like "DB Viewer for SQLite"
 
 ## Usage:
-Provide examples of how to run the code and expected results
-Describe any required input/output files.
+The main flask app with all the dependencies is run from the `barbot.py` file. The file structure is setup correctly that flask can grab the correct CSS and HTML files.
 
 ## License:
 This project is released under the Apache License 2.0 with limited reproduction for non-commercial purposes.
