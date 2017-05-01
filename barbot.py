@@ -294,7 +294,7 @@ if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
 
-    app.debug = False
+    app.debug = True
     # app.debug = False
     toolbar = DebugToolbarExtension(app)
 
