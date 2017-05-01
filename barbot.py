@@ -120,7 +120,7 @@ def confirm_reset():
 # -------Dashboard--------->
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard(username):
-    return render_template('dashboard_test.html', firstname=username)
+    return render_template('dashboard_test.html', username=username)
 
 
 @app.route('/user/<string:username>/settings', methods=['POST', 'GET'])

@@ -91,7 +91,7 @@
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='change'>
         <h1>Change Settings Here</h1>
         <p>All fields must be filled, even if information doesn't change.</p>
-        <form action="/user/<string:username>/settings/confirmation" method="post" class="">
+        <form action="/user/{{data[2]}}/settings/confirmation" method="post" class="">
           <h2>Please Enter Username to Continue</h2>
           <label for="username" class="sr-only">Username</label>
           <input type="username" name="username" class="form-control" placeholder="Username" autofocus required>
