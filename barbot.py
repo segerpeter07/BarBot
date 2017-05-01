@@ -16,7 +16,7 @@ from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 from database_test import *
 from flask_debugtoolbar import DebugToolbarExtension
-
+from find_BACS_singleuser import *
 
 app = Flask('flaskapp')
 
@@ -211,17 +211,14 @@ def barcoderesult():
 
 @app.route("/chart/<string:username>")
 def chart(username):
-    user_info = return_user(username)
-    barcode = user_info[6]
-    st = get_drink_timestamp(barcode)
-    times = st
-    times = [time.strftime("%D %H:%M:%S", time.gmtime(x)) for x in times]
-    labels = times
-    print(labels)
-    values = list(range(0, len(times)))
-    print(values)
-    print("Does this work")
-    return render_template('LinePlotTemplate.html', values=values, labels=labels)
+    party_start = 1493008634.6537
+    current_time = 1493026634.7893
+    max_disp_num = 1  # maximum number of users to display on graph
+    if max_disp_num > 3:  # temporary hack because there are only 3 colors in the colors list
+        max_disp_num = 3
+    res = find_BACS_singleuser(current_time, party_start, max_disp_num, username)
+    values, labels, lines, elements, people_to_disp, colors = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people_to_disp, colors=colors)
 
 
 
