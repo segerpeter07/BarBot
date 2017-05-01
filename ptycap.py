@@ -5,6 +5,8 @@ Party captain dashboard
 import os
 from flask import Flask, render_template, request
 from find_max_BACs import *
+from database_test import *
+import time
 
 app = Flask('flaskapp')
 
@@ -26,11 +28,11 @@ def LinePlot():
 
 @app.route("/multi")
 def MultiLinePlot():
-    party_start = 1493008634.6537
-    current_time = 1493026634.7893
-    max_disp_num = 2  # maximum number of users to display on graph
-    if max_disp_num > 3:  # temporary hack because there are only 3 colors in the colors list
-        max_disp_num = 3
+    party_start = get_party_start()
+    current_time = 1493026634.7893  # change to time.time() when actuallly running
+    max_disp_num = 5  # maximum number of users to display on graph, need to pull this from admin settings
+    if max_disp_num > 5:  # more than 5 lines looks too cluttered
+        max_disp_num = 5
     res = find_max_BACs(current_time, party_start, max_disp_num)
     values, labels, lines, elements, people_to_disp, colors = res
     return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people_to_disp, colors=colors)
