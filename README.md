@@ -45,3 +45,4 @@ The main flask app with all the dependencies is run from the `barbot.py` file. T
 
 ## License:
 This project is released under the Apache License 2.0 with limited reproduction for non-commercial purposes.
+Please contact [peter.seger@students.olin.edu](mailto:peter.seger@students.olin.edu) for more information.
