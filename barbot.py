@@ -1,5 +1,10 @@
 """
-Simple "Hello, World" application using Flask
+The webapp for the BarBot
+Released under Apache License 2.0
+
+@Authors: Peter Seger, Nathan Lepore, Kian Raissian, Lucky Jordan
+
+For more information, consult http://peterhenryseger.com/BarBot/
 """
 
 import os
@@ -118,16 +123,16 @@ def dashboard(username):
     return render_template('dashboard_test.html', firstname=username)
 
 
-@app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
-def dashboard_settings(username):
+@app.route('/user/settings', methods=['POST', 'GET'])
+def dashboard_settings():
     if not session.get('logged_in'):
         return redirect('/login')
     else:
         return render_template('dashboard_settings.html', data=return_user(username))
 
 
-@app.route('/user/<string:username>/settings/confirmation', methods=['POST', 'GET'])
-def dashboard_settings_confirmation(username):
+@app.route('/user/settings/confirmation', methods=['POST', 'GET'])
+def dashboard_settings_confirmation():
     if not session.get('logged_in'):
         return redirect('/login')
     else:
