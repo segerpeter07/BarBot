@@ -124,6 +124,18 @@ def return_data():
     con.close()
 
 
+def get_party_start():
+    """
+    Returns the party start time.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute("SELECT * FROM party_global_data")
+    data = cur.fetchall()
+    return data[0][0]
+    con.close()
+
+
 def update_password(username, password):
     """
     This function updates a username with a new password and sets them in the database
