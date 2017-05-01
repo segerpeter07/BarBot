@@ -4,8 +4,7 @@ Party captain dashboard
 
 import os
 from flask import Flask, render_template, request
-from database_test import *
-from BAC import *
+from find_max_BACs import *
 
 app = Flask('flaskapp')
 
@@ -27,20 +26,14 @@ def LinePlot():
 
 @app.route("/multi")
 def MultiLinePlot():
-    res1 = BAC(70, 180*453.592, 'M', [60, 600, 1800, 3600, 7200, 10800], 18000, 0)
-    res2 = BAC(68, 200*453.592, 'F', [1800, 5400, 7200, 14400], 18000, 0)
-    res3 = BAC(62, 120*453.592, 'F', [900, 3600, 5400, 7200, 10800, 14400], 18000, 0)
-    labels = res1[0]
-    lines = 3
-    values = res1[1]
-    for item in res2[1]:
-        values.append(item)
-    for item in res3[1]:
-        values.append(item)
-    elements = len(values)
-    people = ['Lucky', 'Kian', 'Peter']
-    colors = ["rgba(169,68,66,1)", "rgba(60,118,61,1)", "rgba(49,112,143,1)"]
-    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people, colors=colors)
+    party_start = 1493008634.6537
+    current_time = 1493026634.7893
+    max_disp_num = 2  # maximum number of users to display on graph
+    if max_disp_num > 3:  # temporary hack because there are only 3 colors in the colors list
+        max_disp_num = 3
+    res = find_max_BACs(current_time, party_start, max_disp_num)
+    values, labels, lines, elements, people_to_disp, colors = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people_to_disp, colors=colors)
 
 
 @app.route('/barry', methods=['GET', 'POST'])
