@@ -212,7 +212,7 @@ def chart():
 
 # ------------Party Captain Section---------------------->
 
-# -------New User-------->
+# -------New Admin-------->
 @app.route('/new_admin', methods=['GET'])
 def new_admin():
     if 'GET':
@@ -225,11 +225,15 @@ def new_admin():
 def admin_confirmation():
     username = request.form['username']
     password = request.form['password']
-    if return_admin(username) is None:
-        insert_admin(username, password)
-        return render_template('adminlogin.html')
+    adminpassword = request.form['adminpassword']
+    if adminpassword == 'sSJ04HvxWK0K':
+        if return_admin(username) is None:
+            insert_admin(username, password)
+            return render_template('adminlogin.html')
+        else:
+            return render_template('invalid.html')
     else:
-        return render_template('invalid.html')
+        return "You don't have permission for this"
 # ---------------------->
 
 
