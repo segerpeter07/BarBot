@@ -317,7 +317,6 @@ def get_drink_timestamp(barcode):
     return None
 
 
-<<<<<<< HEAD
 def clear_times():
     """
     This function clears the timestamps and reintializes the table
@@ -333,7 +332,6 @@ def clear_times():
     con.commit()
     con.close
 
-=======
 # ------------ Admin Login ------>
 def insert_admin(username, password):
     """
@@ -397,7 +395,6 @@ def check_admin(username, password):
 
     print(state)
     return state
->>>>>>> 1b450f9f8a24620e0f3cd3a53c3f1a54f0deb9be
 
 if __name__ == '__main__':
     #return_data()

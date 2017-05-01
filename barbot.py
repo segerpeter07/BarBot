@@ -201,7 +201,8 @@ def chart():
     '''
     write_drink_timestamp('suh')
     '''
-    st = get_drink_timestamp('assuh')
+    user_info = return_user()
+    st = get_drink_timestamp(barcode)
     print(st)
     times = st
     times = [time.strftime("%D %H:%M:%S", time.gmtime(x)) for x in times]
