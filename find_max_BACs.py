@@ -21,7 +21,7 @@ def find_max_BACs(current_time, party_start, max_disp_num):
         drink_times = get_drink_timestamp(barcode)  # uses database_test function to return list of times in seconds from epoch at which user took a drink
         drink_times = [x for x in drink_times if x is not None]  # removes null values from list, some users may have taken more drinks than others
         height = user[7]  # height is 8th entry in tuple
-        weight = user[8]  # weight is 9th entry in tuple
+        weight = user[8]*453.592  # weight is 9th entry in tuple, weight in DB is in lbs, needs to be in grams for BAC.py
         gender = user[10][0]  # gender is 11th entry in tuple, only the first letter is needed to determine gender in BAC.py
         res = BAC(height, weight, gender, drink_times, current_time, party_start)  # runs BAC.py func, returns list of two lists [time series, bac series]
         if first_run:  # just sets the time series the first time this for loop runs, this time series is then converted to time strings
