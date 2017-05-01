@@ -115,9 +115,13 @@ def dashboard_settings():
 # ------------Bar Home---->
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
-    return render_template('drinkbuttons.html')
+    if request.method == 'POST':
+        barcoderesult = request.form['barcode']
+        if barcode:
+            sync_user('pseger', barcoderesult)
+            write_drink_timestamp(barcoderesult)
+            return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
 # ------------------------->
-
 
 # -------Drink Results------>
 @app.route('/drinkresults', methods=['GET', 'POST'])
@@ -127,6 +131,14 @@ def drink():
         alcohol = request.form['alcohol']
         if mixers and alcohol:
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
+        else:
+            return redirect(url_for('error')
+
+@app.route('/error', methods = ['GET','POST'])
+def error():
+    if request.method == 'POST':
+        return redirect(url_for('bar'))
+    return render_template('error.html')
 # -------------------------->
 
 
