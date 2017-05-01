@@ -123,16 +123,16 @@ def dashboard(username):
     return render_template('dashboard_test.html', firstname=username)
 
 
-@app.route('/user/settings', methods=['POST', 'GET'])
-def dashboard_settings():
+@app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
+def dashboard_settings(username):
     if not session.get('logged_in'):
         return redirect('/login')
     else:
         return render_template('dashboard_settings.html', data=return_user(username))
 
 
-@app.route('/user/settings/confirmation', methods=['POST', 'GET'])
-def dashboard_settings_confirmation():
+@app.route('/user/<string:username>/settings/confirmation', methods=['POST', 'GET'])
+def dashboard_settings_confirmation(username):
     if not session.get('logged_in'):
         return redirect('/login')
     else:
