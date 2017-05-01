@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       <meta charset="utf-8" />
+       <title>ChartTest.js</title>
+       <script src='static/Chart.js'></script>
+    </head>
+    <body>
+        <canvas id="myChart" width="1000" height="500"></canvas>
+        <script>
+        var chartData = {
+            labels: [{% for item in labels %}
+                           "{{item}}",
+                       {% endfor %}],
+            datasets: []
+        };
+        var data = [{% for item in values %}
+                          {{item}},
+                         {% endfor %}];
+        var colors = [{% for color in colors %}
+                         "{{color}}",
+                        {% endfor %}];
+        var labels = [{% for person in people %}
+                          "{{person}}",
+                         {% endfor %}];
+        var lines = {{lines}};
+        var elements = {{elements}};
+        var setLength = elements/lines;
+        for (line = 0; line < lines; line++) {
+            chartData.datasets.push({});
+            dataset = chartData.datasets[line];
+            dataset.radius = 0;
+            dataset.fill = false;
+            dataset.borderColor = colors[line];
+            dataset.backgroundColor = colors[line];
+            dataset.pointBorderColor = colors[line];
+            dataset.pointBackgroundColor = colors[line];
+            dataset.label = labels[line];
+            start = line*setLength;
+            end = (line+1)*setLength;
+            dataset.data = data.slice(start,end);
+        }
+        var chartOptions = {
+            bezierCurve: false,
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItems, data) {
+                        return data.datasets[tooltipItems.datasetIndex].label +': ' + Math.trunc(tooltipItems.yLabel*100)/100;
+                    }
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                      autoSkip:true,
+                      maxTicksLimit:10
+                    }
+                }]
+            }
+        };
+        Chart.defaults.global.animationSteps = 50;
+        Chart.defaults.global.animationEasing = "easeOutBounce";
+        Chart.defaults.global.responsive = false;
+        Chart.defaults.global.scaleLineColor = "black";
+        Chart.defaults.global.scaleFontSize = 16;
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: chartOptions
+        });
+        </script>
+    </body>
+</html>
