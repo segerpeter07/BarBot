@@ -16,7 +16,7 @@ lbm_per_female = .72  # average lean body mass percentage for females, range .69
 
 
 def rate(bac, t, height, weight, gender, drink_times):
-    if gender == 'M':
+    if gender.lower() == 'm':
         Vm = Vm_male
         Km = Km_male
         lbm_per = lbm_per_male
