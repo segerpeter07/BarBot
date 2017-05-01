@@ -120,7 +120,7 @@ def return_data():
     cur = con.cursor()
     cur.execute("SELECT * FROM account_holder")
     row = cur.fetchall()
-    print(row)
+    return row
     con.close()
 
 
@@ -291,8 +291,10 @@ def Describe(dbFile):
 
 def get_drink_timestamp(barcode):
     """
-    This function increases the drinks count for a user based off their
-    linked barcode identity
+    This function takes in the barcode of a user and returns a list of
+    all their drink timestamps. Users with less drinks than the user
+    with the most drinks will return None as the list item where there
+    is no timestamp.
     """
 
     con = sql.connect('database.db')
@@ -300,17 +302,12 @@ def get_drink_timestamp(barcode):
     cur.execute('SELECT * FROM time_drinks')
     data = cur.fetchall()
     numberOfColumns = Describe('database.db')
-    print(numberOfColumns)
     times = []
-    print('a')
     for category in data:
-        print('b')
         if category[0] == barcode:
-            print('c')
-            for i in range(1, numberOfColumns-1):
+            for i in range(1, numberOfColumns):
                 value = category[i]
                 times.append(value)
-            print(times)
             return times
     con.commit()
     con.close()

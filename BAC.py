@@ -1,10 +1,11 @@
 import numpy as np
+import math
 
 # height = 70  # inches, might be used to map a lbm percentage based on bmi
 # weight = 180*453.592  # grams
 # gender = 'M'  # 'M' for male, 'F' for female
 # drink_times = [1, 10, 30, 60, 120, 180]  # list of drink times in minutes
-drink_size = 28.3495*1.5*0.4  # standard drink size in grams
+drink_size = 28.3495*1.5*0.4  # standard drink size in grams g/oz * oz/shot * % alcohol
 Vm_male = 0.470/10/60  # g/dL-min
 Vm_female = 0.480/10/60  # g/dL-min
 Km_male = 0.380/10  # g/dL
@@ -49,7 +50,7 @@ def my_euler(rate, y0, t, height, weight, gender, drink_times):
 
 
 def sec_to_min(time_sec):
-    return int(time_sec/60)
+    return math.ceil(time_sec/60)
 
 
 def BAC(height, weight, gender, drink_times, current_time, party_start, bac0=0):
