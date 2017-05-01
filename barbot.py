@@ -71,7 +71,7 @@ def logout():
 
 
 # -------New User-------->
-@app.route('/new_user', methods=['GET'])
+@app.route('/new_user', methods=['GET', 'POST'])
 def new_user():
     if 'GET':
         return render_template('new_user_creation.html')
@@ -294,7 +294,7 @@ if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
 
-    app.debug = True
+    app.debug = False
     # app.debug = False
     toolbar = DebugToolbarExtension(app)
 
