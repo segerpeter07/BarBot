@@ -119,12 +119,6 @@ def confirm_reset():
 
 # -------Dashboard--------->
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
-def dashboard():
-    firstname = request.args.get('username')
-    # firstname = username
-    return render_template('dashboard_test.html', firstname=firstname)
-
-
 def dashboard(username):
     return render_template('dashboard_test.html', firstname=username)
 
@@ -201,20 +195,20 @@ def barcoderesult():
 # -------------------------------------------->
 
 
-@app.route("/chart")
-def chart():
-    '''
-    write_drink_timestamp('suh')
-    '''
-    user_info = return_user()
+@app.route("/chart/<string:username>")
+def chart(username):
+    user_info = return_user(username)
+    barcode = user_info[6]
     st = get_drink_timestamp(barcode)
-    print(st)
     times = st
     times = [time.strftime("%D %H:%M:%S", time.gmtime(x)) for x in times]
-    print(times)
     labels = times
-    values = range(len(times))
+    print(labels)
+    values = list(range(0, len(times)))
+    print(values)
+    print("Does this work")
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
+
 
 
 # ------------Party Captain Section---------------------->
