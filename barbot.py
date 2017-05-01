@@ -13,7 +13,7 @@ import datetime
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 from database_test import *
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -163,6 +163,7 @@ def drinks_home():
             return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
 # ------------------------->
 
+
 # -------Drink Results------>
 @app.route('/drinkresults', methods=['GET', 'POST'])
 def drink():
@@ -172,15 +173,15 @@ def drink():
         if mixers and alcohol:
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
         else:
-            return redirect(url_for('error')
+            return redirect(url_for('error'))
 
-@app.route('/error', methods = ['GET','POST'])
+
+@app.route('/error', methods=['GET', 'POST'])
 def error():
     if request.method == 'POST':
         return redirect(url_for('bar'))
     return render_template('error.html')
 # -------------------------->
-
 
 # -------User Sync Home----->
 
