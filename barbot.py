@@ -1,5 +1,10 @@
 """
-Simple "Hello, World" application using Flask
+The webapp for the BarBot
+Released under Apache License 2.0
+
+@Authors: Peter Seger, Nathan Lepore, Kian Raissian, Lucky Jordan
+
+For more information, consult http://peterhenryseger.com/BarBot/
 """
 
 import os
@@ -115,7 +120,7 @@ def confirm_reset():
 # -------Dashboard--------->
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard(username):
-    return render_template('dashboard_test.html', firstname=username)
+    return render_template('dashboard_test.html', username=username)
 
 
 @app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
@@ -150,9 +155,13 @@ def dashboard_settings_confirmation(username):
 # ------------Bar Home---->
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
-    return render_template('drinkbuttons.html')
+    if request.method == 'POST':
+        barcoderesult = request.form['barcode']
+        if barcode:
+            sync_user('pseger', barcoderesult)
+            write_drink_timestamp(barcoderesult)
+            return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
 # ------------------------->
-
 
 # -------Drink Results------>
 @app.route('/drinkresults', methods=['GET', 'POST'])
@@ -162,6 +171,14 @@ def drink():
         alcohol = request.form['alcohol']
         if mixers and alcohol:
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
+        else:
+            return redirect(url_for('error')
+
+@app.route('/error', methods = ['GET','POST'])
+def error():
+    if request.method == 'POST':
+        return redirect(url_for('bar'))
+    return render_template('error.html')
 # -------------------------->
 
 
@@ -184,30 +201,32 @@ def barcoderesult():
         barcoderesult = request.form['barcode']
         if barcode:
             sync_user('pseger', barcoderesult)
+            write_drink_timestamp(barcoderesult)
             return render_template('barcoderesult.html', barcoderesult=barcoderesult)
 # ------------------>
 
 # -------------------------------------------->
 
 
-@app.route("/chart")
-def chart():
-    '''
-    write_drink_timestamp('suh')
-    '''
-    st = get_drink_timestamp('assuh')
-    print(st)
+@app.route("/chart/<string:username>")
+def chart(username):
+    user_info = return_user(username)
+    barcode = user_info[6]
+    st = get_drink_timestamp(barcode)
     times = st
     times = [time.strftime("%D %H:%M:%S", time.gmtime(x)) for x in times]
-    print(times)
     labels = times
-    values = range(len(times))
+    print(labels)
+    values = list(range(0, len(times)))
+    print(values)
+    print("Does this work")
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
+
 
 
 # ------------Party Captain Section---------------------->
 
-# -------New User-------->
+# -------New Admin-------->
 @app.route('/new_admin', methods=['GET'])
 def new_admin():
     if 'GET':
@@ -220,11 +239,15 @@ def new_admin():
 def admin_confirmation():
     username = request.form['username']
     password = request.form['password']
-    if return_admin(username) is None:
-        insert_admin(username, password)
-        return render_template('adminlogin.html')
+    adminpassword = request.form['adminpassword']
+    if adminpassword == 'sSJ04HvxWK0K':
+        if return_admin(username) is None:
+            insert_admin(username, password)
+            return render_template('adminlogin.html')
+        else:
+            return render_template('invalid.html')
     else:
-        return render_template('invalid.html')
+        return "You don't have permission for this"
 # ---------------------->
 
 
