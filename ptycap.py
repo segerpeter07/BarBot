@@ -11,12 +11,12 @@ import time
 app = Flask('flaskapp')
 
 
-@app.route('/pcdash', methods=['GET', 'POST'])  # need this to have username attached and send that to MultiLinePlot
-def pcdashboard():
+@app.route('/pcdash/<string:username>')  # uses username to send to MultiLinePlot and get the admin settings for max_disp_num
+def pcdashboard(username):
     revenue = 100
     expense = 50
     profit = revenue - expense
-    return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT)
+    return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT, username=username)
 
 
 @app.route("/liney")
@@ -26,8 +26,8 @@ def LinePlot():
     return render_template('LinePlotTemplate.html', values=values, labels=labels)
 
 
-@app.route("/multi")
-def MultiLinePlot(username='pseger'):
+@app.route("/multi/<string:username>")
+def MultiLinePlot(username):
     party_start = get_party_start()
     current_time = 1493026634.7893  # change to time.time() when actuallly running
     max_disp_num = return_admin(username)[2]  # returns admin info and selects 3rd entry which is max_disp_num setting

@@ -59,7 +59,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#welcome">Welcome<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#welcome">Welcome</a></li>
             <li><a href="#profit">Profit</a></li>
             <li><a href="#bacs">BACs</a></li>
             <li><a href="#inventory">Inventory</a></li>
@@ -68,8 +68,8 @@
 
         <a class="anchor" id="welcome"></a>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          {% if firstname %}
-             <h1 class="page-header">Welcome {{firstname}}</h1>
+          {% if username %}
+             <h1 class="page-header">Welcome {{username}}</h1>
           {% else %}
              <h1 class="page-header">Welcome John Doe</h1>
           {% endif %}
@@ -83,7 +83,7 @@
 
           <a class="anchor" id="bacs"></a>
           <h2 class="sub-header">Partygoer BACs</h2>
-                  <object data=http://{{host}}:{{port}}/multi width="1200" height="525"> <embed src=http://{{host}}:{{port}}/multi width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
+                  <object data=http://{{host}}:{{port}}/multi/{{username}} width="1200" height="525"> <embed src=http://{{host}}:{{port}}/multi/{{username}} width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
           <a class="anchor" id="inventory"></a>
           <h2 class="sub-header">Bar Inventory</h2>
                   <object data=http://{{host}}:{{port}}/barry width="700" height="425"> <embed src=http://{{host}}:{{port}}/barry width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
