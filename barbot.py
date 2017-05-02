@@ -221,15 +221,6 @@ def barcoderesult():
 # -------------------------------------------->
 
 
-@app.route("/chart/<string:username>")
-def chart(username):
-    party_start = get_party_start()
-    current_time = 1493026634.7893  # need to change to time.time() eventually
-    res = find_BACS_singleuser(current_time, party_start, username)
-    values, labels, lines, elements, person, color = res
-    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color)
-
-
 
 # ------------Party Captain Section---------------------->
 
@@ -299,6 +290,7 @@ def pc_dashboard(username):
         return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT, username=username)
 
 
+# ---------Plots----------->
 @app.route("/multi/<string:username>")
 def MultiLinePlot(username):
     party_start = get_party_start()
@@ -320,7 +312,16 @@ def bar_test():
     return render_template('BarGraph.html', values=values, labels=labels, max=max_val)
 
 
-# ------------------------------>
+@app.route("/chart/<string:username>")
+def chart(username):
+    party_start = get_party_start()
+    current_time = 1493026634.7893  # need to change to time.time() eventually
+    res = find_BACS_singleuser(current_time, party_start, username)
+    values, labels, lines, elements, person, color = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color)
+
+
+# -----------End Plots------------------->
 
 
 
