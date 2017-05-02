@@ -8,15 +8,12 @@ For more information, consult http://peterhenryseger.com/BarBot/
 """
 
 import os
-import time
-import datetime
-from flask import Flask
-from flask import render_template
-from flask import request
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 from database_test import *
 from flask_debugtoolbar import DebugToolbarExtension
 from find_BACS_singleuser import *
+from find_max_BACs import *
+import time
 
 app = Flask('flaskapp')
 
@@ -120,7 +117,10 @@ def confirm_reset():
 # -------Dashboard--------->
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard(username):
-    return render_template('dashboard_test.html', username=username)
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        return render_template('dashboard_test.html', username=username)
 
 
 @app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
@@ -223,14 +223,11 @@ def barcoderesult():
 
 @app.route("/chart/<string:username>")
 def chart(username):
-    party_start = 1493008634.6537
-    current_time = 1493026634.7893
-    max_disp_num = 1  # maximum number of users to display on graph
-    if max_disp_num > 3:  # temporary hack because there are only 3 colors in the colors list
-        max_disp_num = 3
-    res = find_BACS_singleuser(current_time, party_start, max_disp_num, username)
-    values, labels, lines, elements, people_to_disp, colors = res
-    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people_to_disp, colors=colors)
+    party_start = get_party_start()
+    current_time = 1493026634.7893  # need to change to time.time() eventually
+    res = find_BACS_singleuser(current_time, party_start, username)
+    values, labels, lines, elements, person, color = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color)
 
 
 
@@ -291,9 +288,36 @@ def admin_login_confirm():
 
 
 # -------Dashboard--------->
-@app.route('/admin/<string:username>', methods=['POST', 'GET'])
+@app.route('/admin/<string:username>', methods=['POST', 'GET'])  # uses username to send to MultiLinePlot and get the admin settings for max_disp_num
 def pc_dashboard(username):
-    return render_template('pcdash.html', firstname=username)
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        revenue = 100
+        expense = 50
+        profit = revenue - expense
+        return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT, username=username)
+
+
+@app.route("/multi/<string:username>")
+def MultiLinePlot(username):
+    party_start = get_party_start()
+    current_time = 1493026634.7893  # change to time.time() when actuallly running
+    max_disp_num = return_admin(username)[2]  # returns admin info and selects 3rd entry which is max_disp_num setting
+    if max_disp_num > 5:  # more than 5 lines looks too cluttered
+        max_disp_num = 5
+    res = find_max_BACs(current_time, party_start, max_disp_num)
+    values, labels, lines, elements, people_to_disp, colors = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=people_to_disp, colors=colors)
+
+
+@app.route('/barry', methods=['GET', 'POST'])
+def bar_test():
+    data = sorted([(x[1], x[0]) for x in return_drink_data()])
+    labels = [x[1] for x in data]
+    values = [x[0] for x in data]
+    max_val = values[-1]
+    return render_template('BarGraph.html', values=values, labels=labels, max=max_val)
 
 
 # ------------------------------>

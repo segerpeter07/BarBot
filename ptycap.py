@@ -40,9 +40,11 @@ def MultiLinePlot(username):
 
 @app.route('/barry', methods=['GET', 'POST'])
 def bar_test():
-    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('BarGraph.html', values=values, labels=labels)
+    data = sorted([(x[1], x[0]) for x in return_drink_data()])
+    labels = [x[1] for x in data]
+    values = [x[0] for x in data]
+    max_val = values[-1]
+    return render_template('BarGraph.html', values=values, labels=labels, max=max_val)
 
 
 if __name__ == '__main__':
