@@ -71,7 +71,7 @@ def logout():
 
 
 # -------New User-------->
-@app.route('/new_user', methods=['GET'])
+@app.route('/new_user', methods=['GET', 'POST'])
 def new_user():
     if 'GET':
         return render_template('new_user_creation.html')
@@ -153,24 +153,36 @@ def dashboard_settings_confirmation(username):
 # ----------------------------------------------->
 
 # ------------Bar Home---->
+
+@app.route('/syncuser', methods=['GET','POST'])
+def syncuser():
+    return render_template('syncuser.html')
+
+@app.route('/confirm', methods=['GET','POST'])
+def confirm():
+    if request.method == 'POST':
+        initbarcode=request.form['initbarcode']
+        username=request.form['username']
+        if barcode and username:
+            sync_user(username, initbarcode)
+            return render_template('confirm.html', username=username, initbarcode=initbarcode)
+
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
-    if request.method == 'POST':
-        barcoderesult = request.form['barcode']
-        if barcode:
-            sync_user('pseger', barcoderesult)
-            write_drink_timestamp(barcoderesult)
-            return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
+    return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
 # ------------------------->
 
 
 # -------Drink Results------>
-@app.route('/drinkresults', methods=['GET', 'POST'])
-def drink():
+@app.route('/bar/<string:barcode>/drinkresults', methods=['GET', 'POST'])
+def drink(barcode):
     if request.method == 'POST':
         mixers = request.form['mixers']
         alcohol = request.form['alcohol']
         if mixers and alcohol:
+            update_drink(alcohol)
+            update_drink(mixers)
+            increase_drink_count(barcode)
             return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
         else:
             return redirect(url_for('error'))
@@ -294,9 +306,9 @@ if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
 
-    app.debug = True
     # app.debug = False
-    toolbar = DebugToolbarExtension(app)
+    # # app.debug = False
+    # toolbar = DebugToolbarExtension(app)
 
-    app.run('localhost', port=PORT)
-    # app.run('10.7.12.99', port=PORT)
+    app.run(host=HOST, port=PORT)
+    # app.run('0.0.0.0', '443')
