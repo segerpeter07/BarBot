@@ -1,2 +1,2 @@
-web: python3 barbots.py
+web: python3 barbot.py
 
