@@ -306,9 +306,9 @@ if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 5000))
     # app.run(host=HOST, port=PORT)
 
-    app.debug = False
     # app.debug = False
-    toolbar = DebugToolbarExtension(app)
+    # # app.debug = False
+    # toolbar = DebugToolbarExtension(app)
 
-    # app.run('0.0.0.0', port=PORT)
-    app.run('0.0.0.0', '443')
+    app.run(host=HOST, port=PORT)
+    # app.run('0.0.0.0', '443')
