@@ -310,5 +310,4 @@ if __name__ == '__main__':
     # app.debug = False
     toolbar = DebugToolbarExtension(app)
 
-    app.run(host=HOST, port=PORT)
-    # app.run('10.7.12.99', port=PORT)
+    app.run('0.0.0.0', port=PORT)
