@@ -87,12 +87,22 @@ def insert_user(email, username, phone, password, height, weight, age, gender):
     """
     con = sql.connect("database.db")
     cur = con.cursor()
-    barcode = 'TEMP'
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
     cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, '', height, weight, age, gender))
     con.commit()
-    cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (barcode))
+    inst_barcode()
+    con.close()
+
+
+def inst_barcode():
+    """
+
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    barcode_val = 'TEMP'
+    cur.execute("INSERT INTO time_drinks (barcode) VALUES ('TEMP')")
     con.commit()
     con.close()
 
