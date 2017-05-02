@@ -11,7 +11,7 @@ import time
 app = Flask('flaskapp')
 
 
-@app.route('/pcdash', methods=['GET', 'POST'])
+@app.route('/pcdash', methods=['GET', 'POST'])  # need this to have username attached and send that to MultiLinePlot
 def pcdashboard():
     revenue = 100
     expense = 50
@@ -27,10 +27,10 @@ def LinePlot():
 
 
 @app.route("/multi")
-def MultiLinePlot():
+def MultiLinePlot(username='pseger'):
     party_start = get_party_start()
     current_time = 1493026634.7893  # change to time.time() when actuallly running
-    max_disp_num = 5  # maximum number of users to display on graph, need to pull this from admin settings
+    max_disp_num = return_admin(username)[2]  # returns admin info and selects 3rd entry which is max_disp_num setting
     if max_disp_num > 5:  # more than 5 lines looks too cluttered
         max_disp_num = 5
     res = find_max_BACs(current_time, party_start, max_disp_num)
