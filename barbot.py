@@ -120,7 +120,7 @@ def dashboard(username):
     if not session.get('logged_in'):
         return redirect('/login')
     else:
-        return render_template('dashboard_test.html', username=username)
+        return render_template('dashboard_test.html', username=username, host=HOST, port=PORT)
 
 
 @app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
@@ -335,7 +335,7 @@ if __name__ == '__main__':
     # # app.debug = False
     # toolbar = DebugToolbarExtension(app)
 
-    # app.run(host=HOST, port=PORT)
-    HOST = '10.7.68.97'
     app.run(host=HOST, port=PORT)
+    # HOST = '10.7.68.97'
+    # app.run(host=HOST, port=PORT)
     # app.run('0.0.0.0', '443')
