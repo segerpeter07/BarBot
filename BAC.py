@@ -6,11 +6,11 @@ import math
 # gender = 'M'  # 'M' for male, 'F' for female
 # drink_times = [1, 10, 30, 60, 120, 180]  # list of drink times in minutes
 drink_size = 28.3495*1.5*0.4  # standard drink size in grams g/oz * oz/shot * % alcohol
-Vm_male = 0.470/10/60  # g/dL-min
-Vm_female = 0.480/10/60  # g/dL-min
-Km_male = 0.380/10  # g/dL
-Km_female = 0.405/10  # g/dL
-lbm_density = 1.1*100  # overall density of lean body mass in g/dL or g/cm3
+Vm_male = 0.470*0.1*(1/60)  # g/L-hour * L/dL * hour/min to get g/dL-min
+Vm_female = 0.480*0.1*(1/60)  # g/L-hour * L/dL * hour/min to get g/dL-min
+Km_male = 0.380*0.1  # g/L * L/dL to get g/dL
+Km_female = 0.405*0.1  # g/L * L/dL to get g/dL
+lbm_density = 1.113*100  # overall density of lean body mass in g/mL * mL/dL to get g/dL
 lbm_per_male = .79  # average lean body mass percentage for males, range .76-.82
 lbm_per_female = .72  # average lean body mass percentage for females, range .69-.75
 
