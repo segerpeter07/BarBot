@@ -334,7 +334,7 @@ if __name__ == '__main__':
     # # app.debug = False
     # toolbar = DebugToolbarExtension(app)
 
-    # app.run(host=HOST, port=PORT)
-    HOST = '10.7.68.97'
     app.run(host=HOST, port=PORT)
+    #HOST = '10.7.68.97'
+    #app.run(host=HOST, port=PORT)
     # app.run('0.0.0.0', '443')
