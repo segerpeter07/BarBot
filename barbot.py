@@ -166,6 +166,8 @@ def confirm():
         if barcode and username:
             sync_user(username, initbarcode)
             return render_template('confirm.html', username=username, initbarcode=initbarcode)
+        sleep.time(5)
+        return redirect(url_for('syncuser'))
 
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
