@@ -1,3 +1,4 @@
 Flask
 bcrypt
 flask_debugtoolbar
+python-numpy
