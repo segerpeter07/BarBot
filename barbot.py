@@ -205,11 +205,17 @@ def barcode():
 
 @app.route('/bar', methods=['GET','POST'])
 def bar():
-    return render_template('drinkbuttons.html')
+    barcode = request.form['barcode']
+    return redirect('/<string:barcode>/bar')
 
 
-@app.route('/barcoderesult',methods=['GET', 'POST'])
-def barcoderesult():
+# @app.route('/<string:barcode>/bar', methods=['GET','POST'])
+# def bar(barcode):
+#     return render_template('drinkbuttons.html', barcode=barcode)
+
+
+@app.route('/<string:barcode>/barcoderesult', methods=['GET', 'POST'])
+def barcoderesult(barcode):
     if request.method == 'POST':
         barcoderesult = request.form['barcode']
         if barcode:
@@ -335,7 +341,7 @@ if __name__ == '__main__':
     # # app.debug = False
     # toolbar = DebugToolbarExtension(app)
 
-    app.run(host=HOST, port=PORT)
-    # HOST = '10.7.68.97'
     # app.run(host=HOST, port=PORT)
+    HOST = '10.7.68.97'
+    app.run(host=HOST, port=PORT)
     # app.run('0.0.0.0', '443')
