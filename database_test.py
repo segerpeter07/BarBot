@@ -13,7 +13,6 @@ import sqlite3 as sql
 import sys
 import bcrypt   # INCLUDE INSTALL DEPENDENCY
 import time
-import datetime
 import random
 import string
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
@@ -24,7 +23,10 @@ salt = salt.encode('utf-8')
 
 def update_drink(drink):
     """
-    This function takes a drink and decrements the amount of drink based off the type
+    This function takes a drink and decrements the amount of drink based off the type.
+    Drink quantity is in Liters with 2L being the maximum amount.
+    Assumes each drink has one 1.5 oz shot of alcohol and the alcohol to mixer ratio
+    is 1:3.
     """
     con = sql.connect('database.db')
     cur = con.cursor()
@@ -36,9 +38,9 @@ def update_drink(drink):
             active_drink = category[0]
             amount = category[1]
             if active_drink == 'coke' or 'sprite' or 'tonic' or 'orange' or 'ginger':
-                amount = amount - 4
+                amount = amount - 3.5**0.0295735  # oz/drink * L/oz to get L/drink, alc:mixer ratio is 1:3
             elif active_drink == 'vodka' or 'rum' or 'gin' or 'tequila':
-                amount = amount - 1
+                amount = amount - 1.5*0.0295735  # oz/shot * L/oz to get L/shot, each mixed drink has one 1.5oz shot of alcohol
     cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
     con.commit()
     con.close()
@@ -55,6 +57,17 @@ def get_drink_count(drink):
     for choice in data:
         if choice[0] == drink:
             return choice[1]
+
+
+def return_drink_data():
+    """
+    This function returns all drink inventory data.
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    return data
 
 # --------------------------->
 
@@ -403,12 +416,13 @@ def check_admin(username, password):
     cur = con.cursor()
     cur.execute('SELECT * FROM admin')
     data = cur.fetchall()
-    state = False   # Match state, by default false
+    state = True   # Match state, by default false
     for person in data:
         if person[0] == username:
             real_password = person[1]   # Hashed password for asociated match person
     password = password.encode('utf-8')     # Encode given password
     comp_password = bcrypt.hashpw(password, salt)
+    real_password = real_password.encode('utf-8')
     print(comp_password)
     print(real_password)
     if real_password == comp_password:      # Compare given password and what the db says
@@ -419,11 +433,12 @@ def check_admin(username, password):
     print(state)
     return state
 
+
 if __name__ == '__main__':
-    #return_data()
-    #increase_drink_count('hello')
-    #update_drink('coke')
-    #sync_user('pseger1', '12123132')
-    #print(get_drink_count(input('Drink: ')))
+    # return_data()
+    # increase_drink_count('hello')
+    # update_drink('coke')
+    # sync_user('pseger1', '12123132')
+    # print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
     clear_times()
