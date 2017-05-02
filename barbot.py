@@ -153,6 +153,20 @@ def dashboard_settings_confirmation(username):
 # ----------------------------------------------->
 
 # ------------Bar Home---->
+
+@app.route('/syncuser', methods=['GET','POST'])
+def syncuser():
+    return render_template('syncuser.html')
+
+@app.route('/confirm', methods=['GET','POST'])
+def confirm():
+    if request.method == 'POST':
+        initbarcode=request.form['initbarcode']
+        username=request.form['username']
+        if barcode and username:
+            sync_user(username, initbarcode)
+            return render_template('confirm.html', username=username, initbarcode=initbarcode)
+
 @app.route('/bar', methods=['GET', 'POST'])
 def drinks_home():
     return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
