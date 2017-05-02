@@ -238,7 +238,7 @@ def write_drink_timestamp(barcode):
         if category[0] == barcode:
             ts = time.time()
             #st = time.strftime("%Y%M%D%H%M%S", time.gmtime(time.time()))
-            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5 ))
+            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
             newtime = ts
     cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
     cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
