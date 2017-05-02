@@ -409,6 +409,7 @@ def check_admin(username, password):
             real_password = person[1]   # Hashed password for asociated match person
     password = password.encode('utf-8')     # Encode given password
     comp_password = bcrypt.hashpw(password, salt)
+    real_password = real_password.encode('utf-8')
     print(comp_password)
     print(real_password)
     if real_password == comp_password:      # Compare given password and what the db says
