@@ -374,7 +374,7 @@ def MultiLinePlot(username):
     Renders the multiline plot of multiple users' BAC.
     """
     party_start = get_party_global_data()[0][0]
-    current_time = 1493026634.7893  # change to time.time() when actuallly running
+    current_time = time.time()
     max_disp_num = return_admin(username)[2]  # returns admin info and selects 3rd entry which is max_disp_num setting
     if max_disp_num > 5:  # more than 5 lines looks too cluttered
         max_disp_num = 5
@@ -401,7 +401,7 @@ def chart(username):
     Renders the line plot for a single user's BAC.
     """
     party_start = get_party_global_data()[0][0]
-    current_time = 1493026634.7893  # need to change to time.time() eventually
+    current_time = time.time()
     res = find_BACS_singleuser(current_time, party_start, username)
     values, labels, lines, elements, person, color, fill_color = res
     return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color, fill_color=fill_color)
