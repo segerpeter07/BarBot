@@ -13,8 +13,8 @@ import sqlite3 as sql
 import sys
 import bcrypt   # INCLUDE INSTALL DEPENDENCY
 import time
-import random
 import string
+from random import *
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
@@ -39,12 +39,9 @@ def update_drink(drink):
     for category in data:
         if category[0] == drink:
             amount = category[1]
-            print(drink)
             if drink in mixers:
-                print('mixer')
                 amount = amount - int(3.5*29.5735)  # oz/drink * mL/oz to get mL/drink, alc:mixer ratio is 1:3
             elif drink in alc:
-                print('alc')
                 amount = amount - int(1.5*29.5735)  # oz/shot * mL/oz to get L/shot, each mixed drink has one 1.5oz shot of alcohol
     cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
     con.commit()
@@ -107,20 +104,20 @@ def insert_user(email, username, phone, password, height, weight, age, gender):
     cur = con.cursor()
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
-    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, '', height, weight, age, gender))
+    barcode_val = randint(1, 10000)
+    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, barcode_val, height, weight, age, gender))
     con.commit()
-    inst_barcode()
+    inst_barcode(barcode_val)
     con.close()
 
 
-def inst_barcode():
+def inst_barcode(temp_barcode):
     """
-
     """
     con = sql.connect("database.db")
     cur = con.cursor()
-    barcode_val = 'TEMP'
-    cur.execute("INSERT INTO time_drinks (barcode) VALUES ('TEMP')")
+    temp_barcode = str(temp_barcode)
+    cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (temp_barcode,))
     con.commit()
     con.close()
 
@@ -269,7 +266,7 @@ def write_drink_timestamp(barcode):
     if barcode not in barcodes:
         cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (barcode,))
     newtime = time.time()
-    st = ''.join(random.choice(string.ascii_uppercase) for _ in range(5))
+    st = ''.join(choice(string.ascii_uppercase) for _ in range(5))
     cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
     cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
     con.commit()
@@ -438,6 +435,19 @@ def check_admin(username, password):
     return state
 
 
+def update_start_time():
+    """
+    This function updates the party start to the current time of day
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    pts = time.time()
+    pts = int(pts)
+    cur.execute('UPDATE party_global_data SET party_start=? WHERE write=?', (pts, 'check'))
+    con.commit()
+    con.close()
+
+
 if __name__ == '__main__':
     # return_data()
     # increase_drink_count('hello')
@@ -446,3 +456,4 @@ if __name__ == '__main__':
     # print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
     clear_times()
+    # update_start_time()

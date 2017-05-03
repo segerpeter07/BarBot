@@ -42,12 +42,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">BarBot LLC</a>
+          <a class="navbar-brand" href="#">BarBot</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
-            <li><a href="/admin/{{username}}/new-party">New Party</a></li>
+            <li><a href="#">Help</a></li>
             <li><a href="/logout">Logout</a></li>
           </ul>
         </div>
@@ -67,26 +68,7 @@
 
         <a class="anchor" id="welcome"></a>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          {% if username %}
-             <h1 class="page-header">Welcome {{username}}</h1>
-          {% else %}
-             <h1 class="page-header">Welcome John Doe</h1>
-          {% endif %}
-
-          <a class="anchor" id="profit"></a>
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-success">Revenue: ${{revenue}}</li>
-            <li class="list-group-item list-group-item-danger">Expense: -${{expense}}</li>
-            <li class="list-group-item list-group-item-info">Profit: ${{profit}}</li>
-          </ul>
-
-          <a class="anchor" id="bacs"></a>
-          <h2 class="sub-header">Partygoer BACs</h2>
-                  <object data=http://{{host}}:{{port}}/multi/{{username}} width="1200" height="525"> <embed src=http://{{host}}:{{port}}/multi/{{username}} width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
-          <a class="anchor" id="inventory"></a>
-          <h2 class="sub-header">Bar Inventory</h2>
-                  <object data=http://{{host}}:{{port}}/barry width="700" height="425"> <embed src=http://{{host}}:{{port}}/barry width="700" height="500"> </embed> Error: Embedded data could not be displayed. </object>
-        </div>
+          <button class="btn btn-lg btn-warning btn-block" type="submit" href='/new_party_confirm'>New Party</button>
       </div>
     </div>
 
