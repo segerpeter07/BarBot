@@ -434,6 +434,19 @@ def check_admin(username, password):
     return state
 
 
+def update_start_time():
+    """
+    This function updates the party start to the current time of day
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    pts = time.time()
+    pts = int(pts)
+    cur.execute('UPDATE party_global_data SET party_start=? WHERE write=?', (pts, 'check'))
+    con.commit()
+    con.close()
+
+
 if __name__ == '__main__':
     # return_data()
     # increase_drink_count('hello')
@@ -441,4 +454,5 @@ if __name__ == '__main__':
     # sync_user('pseger1', '12123132')
     # print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
-    clear_times()
+    #clear_times()
+    #update_start_time()
