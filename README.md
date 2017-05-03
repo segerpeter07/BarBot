@@ -20,6 +20,7 @@ To get started, these installs are necessary:
 ```
 $ sudo pip3 install Flask
 $ sudo pip3 install bcrypt
+$ sudo pip3 install numpy
 ```
 Optionally you can add the flask_debugtoolbar which is very helpful for debugging.
 ```
