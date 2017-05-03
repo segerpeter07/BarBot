@@ -363,7 +363,8 @@ def new_party_confirm(username):
     else:
         clear_times()
         reset_drink_data()
-        return redirect('/admin/<string:username>')
+        reset_party_global_data()
+        return redirect('/admin/' + username)
 
 
 # ---------Plots----------->

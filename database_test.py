@@ -482,7 +482,7 @@ def check_admin(username, password):
     return state
 
 
-def update_start_time():
+def reset_party_global_data():
     """
     This function updates the party start to the current time of day
     """
@@ -491,6 +491,8 @@ def update_start_time():
     pts = time.time()
     pts = int(pts)
     cur.execute('UPDATE party_global_data SET party_start=? WHERE write=?', (pts, 'check'))
+    cur.execute('UPDATE party_global_data SET revenue=? WHERE write=?', (0, 'check'))
+    cur.execute('UPDATE party_global_data SET expense=? WHERE write=?', (0, 'check'))
     con.commit()
     con.close()
 
