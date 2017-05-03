@@ -21,11 +21,17 @@ app = Flask('flaskapp')
 # ------HOME PAGE------->
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    """
+    Renders the home screen.
+    """
     return render_template('home.html')
 
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
+    """
+    Renders the about screen.
+    """
     return render_template('about.html')
 # ---------------------->
 
@@ -33,6 +39,10 @@ def about():
 # <-----LOGIN PAGE-------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Checks to see if the session is signed in and if it is, redirects
+    to the loginconfirm, and if not renders the login page
+    """
     if 'GET':
         if not session.get('logged_in'):
             return render_template('login.html')
@@ -44,6 +54,10 @@ def login():
 # <-----LOGIN CONFIRM PAGE-------
 @app.route('/loginconfirm', methods=['GET', 'POST'])
 def login_confirm():
+    """
+    Checks to see if a username exists and then checks if the password
+    entered was correct and redirects to the user specific url.
+    """
     username = request.form['username']
     password = request.form['password']
     # Check if user exists
@@ -62,6 +76,9 @@ def login_confirm():
 # <-----LOGOUT PAGE-------
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    """
+    Changes the system status to logged-out and sends the user to the login page.
+    """
     session['logged_in'] = False
     return render_template('login.html')
 # ----------------------->
@@ -70,6 +87,9 @@ def logout():
 # -------New User-------->
 @app.route('/new_user', methods=['GET', 'POST'])
 def new_user():
+    """
+    Renders the new user creation screen.
+    """
     if 'GET':
         return render_template('new_user_creation.html')
 # ------------------>
@@ -78,6 +98,12 @@ def new_user():
 # -----Confirmation Page---->
 @app.route('/new_user/confirmation', methods=['GET','POST'])
 def confirmation():
+    """
+    Creates a new user in the dashboard by grabbing all the information
+    from the form on the new_user screen. Before creating a new user
+    it checks if the user exists, then inserts the info into the database
+    and renders a confirmation page.
+    """
     email = request.form['email']
     username = request.form['username']
     phone = request.form['phone']
@@ -97,6 +123,9 @@ def confirmation():
 # -----Rest Password Page----->
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
+    """
+    Renders the reset password screen.
+    """
     return render_template('reset_password.html')
 # ------------------------------->
 
@@ -104,6 +133,11 @@ def reset_password():
 # ------Password Reset Confirm----->
 @app.route('/reset_password/confirmation', methods=['GET', 'POST'])
 def confirm_reset():
+    """
+    Processes the password reset by checking to see if the phone number
+    is the same, then modifies the information in the database and renders
+    the confirmation page.
+    """
     username = request.form['username']
     phone = request.form['phone']
     password = request.form['password']
@@ -117,6 +151,10 @@ def confirm_reset():
 # -------Dashboard--------->
 @app.route('/user/<string:username>', methods=['POST', 'GET'])
 def dashboard(username):
+    """
+    Renders the dashboard for a specific user by first checking if the
+    session is logged in.
+    """
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -125,6 +163,9 @@ def dashboard(username):
 
 @app.route('/user/<string:username>/settings', methods=['POST', 'GET'])
 def dashboard_settings(username):
+    """
+    Renders the settings modification page.
+    """
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -133,6 +174,9 @@ def dashboard_settings(username):
 
 @app.route('/user/<string:username>/settings/confirmation', methods=['POST', 'GET'])
 def dashboard_settings_confirmation(username):
+    """
+    Updates the settings the user put in.
+    """
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -205,11 +249,17 @@ def barcode():
 
 @app.route('/bar', methods=['GET','POST'])
 def bar():
-    return render_template('drinkbuttons.html')
+    barcode = request.form['barcode']
+    return redirect('/<string:barcode>/bar')
 
 
-@app.route('/barcoderesult',methods=['GET', 'POST'])
-def barcoderesult():
+# @app.route('/<string:barcode>/bar', methods=['GET','POST'])
+# def bar(barcode):
+#     return render_template('drinkbuttons.html', barcode=barcode)
+
+
+@app.route('/<string:barcode>/barcoderesult', methods=['GET', 'POST'])
+def barcoderesult(barcode):
     if request.method == 'POST':
         barcoderesult = request.form['barcode']
         if barcode:
@@ -227,6 +277,9 @@ def barcoderesult():
 # -------New Admin-------->
 @app.route('/new_admin', methods=['GET'])
 def new_admin():
+    """
+    Renders the page for new admin creation.
+    """
     if 'GET':
         return render_template('newadmin.html')
 # ------------------>
@@ -235,6 +288,10 @@ def new_admin():
 # -----Confirmation Page---->
 @app.route('/new_admin/confirmation', methods=['GET','POST'])
 def admin_confirmation():
+    """
+    Creates a new admin checking to see if the information entered was valid.
+    Then renders the admin login page.
+    """
     username = request.form['username']
     password = request.form['password']
     adminpassword = request.form['adminpassword']
@@ -252,6 +309,9 @@ def admin_confirmation():
 # <-----PC LOGIN PAGE-------
 @app.route('/adminlogin', methods=['GET', 'POST'])
 def admin_login():
+    """
+    Renders the admin login page.
+    """
     if 'GET':
         if not session.get('logged_in'):
             return render_template('adminlogin.html')
@@ -263,6 +323,11 @@ def admin_login():
 # <-----PC LOGIN CONFIRM PAGE-------
 @app.route('/adminloginconfirm', methods=['GET', 'POST'])
 def admin_login_confirm():
+    """
+    Checks the entered login information to see if it is correct,
+    and if so, renders the admin dashboard for the user routing
+    through the admin's url.
+    """
     username = request.form['username']
     password = request.form['password']
     # Check if user exists
@@ -281,6 +346,9 @@ def admin_login_confirm():
 # -------Dashboard--------->
 @app.route('/admin/<string:username>', methods=['POST', 'GET'])  # uses username to send to MultiLinePlot and get the admin settings for max_disp_num
 def pc_dashboard(username):
+    """
+    Renders the party captain (admin) dashboard screen.
+    """
     if not session.get('logged_in'):
         return redirect('/login')
     else:
@@ -290,9 +358,24 @@ def pc_dashboard(username):
         return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT, username=username)
 
 
+@app.route('/admin/<string:username>/new-party', methods=['GET', 'POST'])
+def new_party(username):
+    """
+    This function resets the drinks_times table in the database showing
+    the start of a new party
+    """
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        return render_template('new_party.html')
+
+
 # ---------Plots----------->
 @app.route("/multi/<string:username>")
 def MultiLinePlot(username):
+    """
+    Renders the multiline plot of multiple users' BAC.
+    """
     party_start = get_party_start()
     current_time = 1493026634.7893  # change to time.time() when actuallly running
     max_disp_num = return_admin(username)[2]  # returns admin info and selects 3rd entry which is max_disp_num setting
@@ -305,6 +388,9 @@ def MultiLinePlot(username):
 
 @app.route('/barry', methods=['GET', 'POST'])
 def bar_test():
+    """
+    Renders the bar plot for the amount of drinks in the bar.
+    """
     data = sorted([(x[1], x[0]) for x in return_drink_data()])
     labels = [x[1] for x in data]
     values = [x[0] for x in data]
@@ -314,6 +400,9 @@ def bar_test():
 
 @app.route("/chart/<string:username>")
 def chart(username):
+    """
+    Renders the line plot for a single user's BAC.
+    """
     party_start = get_party_start()
     current_time = 1493026634.7893  # need to change to time.time() eventually
     res = find_BACS_singleuser(current_time, party_start, username)
@@ -335,4 +424,7 @@ if __name__ == '__main__':
     # # app.debug = False
     # toolbar = DebugToolbarExtension(app)
 
+    # app.run(host=HOST, port=PORT)     # Use for hosting on localhost
+    HOST = '10.7.68.97'     # use for hosting on single computer on network
     app.run(host=HOST, port=PORT)
+    # app.run('0.0.0.0', '443')

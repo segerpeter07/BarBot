@@ -15,6 +15,7 @@ import bcrypt   # INCLUDE INSTALL DEPENDENCY
 import time
 import random
 import string
+from random import *
 salt = '$2b$12$oipF.pNP9t4uEUUTEExH8.'  # Global salt used to hash passwords and comparisons
 salt = salt.encode('utf-8')
 
@@ -102,20 +103,20 @@ def insert_user(email, username, phone, password, height, weight, age, gender):
     cur = con.cursor()
     password = password.encode('utf-8')
     password = bcrypt.hashpw(password, salt)
-    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, '', height, weight, age, gender))
+    barcode_val = randint(1, 10000)
+    cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, barcode_val, height, weight, age, gender))
     con.commit()
-    inst_barcode()
+    inst_barcode(barcode_val)
     con.close()
 
 
-def inst_barcode():
+def inst_barcode(temp_barcode):
     """
-
     """
     con = sql.connect("database.db")
     cur = con.cursor()
-    barcode_val = 'TEMP'
-    cur.execute("INSERT INTO time_drinks (barcode) VALUES ('TEMP')")
+    temp_barcode = str(temp_barcode)
+    cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (temp_barcode,))
     con.commit()
     con.close()
 
