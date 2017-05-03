@@ -30,9 +30,14 @@
             chartData.datasets.push({});
             dataset = chartData.datasets[line];
             dataset.radius = 0;
-            dataset.fill = false;
             dataset.borderColor = colors[line];
-            dataset.backgroundColor = colors[line];
+            if (lines == 1) {
+              dataset.fill = true;
+              dataset.backgroundColor = "{{fill_color}}"
+            } else {
+              dataset.fill = false;
+              dataset.backgroundColor = colors[line];
+            }
             dataset.pointBorderColor = colors[line];
             dataset.pointBackgroundColor = colors[line];
             dataset.label = labels[line];

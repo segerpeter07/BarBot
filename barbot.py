@@ -149,53 +149,31 @@ def dashboard_settings_confirmation(username):
         return render_template('dashboard_settings.html', data=return_user(username))
 
 
-# BAR SECTION
+# FRONT DOOR SECTION
 # ----------------------------------------------->
 
-# ------------Bar Home---->
-
-@app.route('/syncuser', methods=['GET','POST'])
+# front door sync user to barcode for the night
+@app.route('/syncuser', methods=['GET', 'POST'])
 def syncuser():
     return render_template('syncuser.html')
 
-@app.route('/confirm', methods=['GET','POST'])
+
+@app.route('/confirm', methods=['GET', 'POST'])
 def confirm():
     if request.method == 'POST':
-        initbarcode=request.form['initbarcode']
-        username=request.form['username']
-        if barcode and username:
+        initbarcode = request.form['initbarcode']
+        username = request.form['username']
+        password = request.form['password']
+        success = False  # default is false for syncing success
+        # Check if user exists
+        if return_user(username) is not None and check_password(username, password):
             sync_user(username, initbarcode)
-            return render_template('confirm.html', username=username, initbarcode=initbarcode)
-
-@app.route('/bar', methods=['GET', 'POST'])
-def drinks_home():
-    return render_template('drinkbuttons.html', barcoderesult=barcoderesult)
-# ------------------------->
+            success = True
+        return render_template('confirm.html', username=username, initbarcode=initbarcode, success=success)
 
 
-# -------Drink Results------>
-@app.route('/bar/<string:barcode>/drinkresults', methods=['GET', 'POST'])
-def drink(barcode):
-    if request.method == 'POST':
-        mixers = request.form['mixers']
-        alcohol = request.form['alcohol']
-        if mixers and alcohol:
-            update_drink(alcohol)
-            update_drink(mixers)
-            increase_drink_count(barcode)
-            return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol)
-        else:
-            return redirect(url_for('error'))
-
-
-@app.route('/error', methods=['GET', 'POST'])
-def error():
-    if request.method == 'POST':
-        return redirect(url_for('bar'))
-    return render_template('error.html')
-# -------------------------->
-
-# -------User Sync Home----->
+# BAR SECTION
+# ----------------------------------------------->
 
 
 @app.route('/barcode', methods=['GET', 'POST'])
@@ -203,23 +181,34 @@ def barcode():
     return render_template('barcode.html')
 
 
-@app.route('/bar', methods=['GET','POST'])
-def bar():
-    return render_template('drinkbuttons.html')
-
-
-@app.route('/barcoderesult',methods=['GET', 'POST'])
-def barcoderesult():
+@app.route('/drinkselection', methods=['GET', 'POST'])
+def drink_selection():
     if request.method == 'POST':
-        barcoderesult = request.form['barcode']
-        if barcode:
-            sync_user('pseger', barcoderesult)
-            write_drink_timestamp(barcoderesult)
-            return render_template('barcoderesult.html', barcoderesult=barcoderesult)
-# ------------------>
+        barcode = request.form['barcode']
+        data = return_data()
+        barcodes = [x[6] for x in data]
+        success = False
+        username = None
+        if barcode in barcodes:
+            success = True
+            index = barcodes.index(barcode)
+            username = data[index][2]
+        return render_template('drinkbuttons.html', username=username, barcode=barcode, success=success)
 
-# -------------------------------------------->
 
+# -------Drink Results------>
+@app.route('/drinkresults/<string:username>/<string:barcode>', methods=['GET', 'POST'])
+def drink(username, barcode):
+    if request.method == 'POST':
+        mixers = request.form['mixers']
+        alcohol = request.form['alcohol']
+        print(alcohol)
+        print(mixers)
+        update_drink(alcohol)
+        update_drink(mixers)
+        increase_drink_count(barcode)
+        write_drink_timestamp(barcode)
+        return render_template('drinksresults.html', mixers=mixers, alcohol=alcohol, username=username)
 
 
 # ------------Party Captain Section---------------------->
@@ -233,7 +222,7 @@ def new_admin():
 
 
 # -----Confirmation Page---->
-@app.route('/new_admin/confirmation', methods=['GET','POST'])
+@app.route('/new_admin/confirmation', methods=['GET', 'POST'])
 def admin_confirmation():
     username = request.form['username']
     password = request.form['password']
@@ -317,8 +306,8 @@ def chart(username):
     party_start = get_party_start()
     current_time = 1493026634.7893  # need to change to time.time() eventually
     res = find_BACS_singleuser(current_time, party_start, username)
-    values, labels, lines, elements, person, color = res
-    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color)
+    values, labels, lines, elements, person, color, fill_color = res
+    return render_template('MultiLinePlot2.html', values=values, labels=labels, lines=lines, elements=elements, people=person, colors=color, fill_color=fill_color)
 
 
 # -----------End Plots------------------->

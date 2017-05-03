@@ -32,15 +32,20 @@ def update_drink(drink):
     cur = con.cursor()
     cur.execute('SELECT * FROM drinks_data')
     data = cur.fetchall()
+    drink = drink.lower()
     amount = 0
+    mixers = ['coke', 'sprite', 'tonic', 'orange', 'ginger']
+    alc = ['vodka', 'rum', 'gin', 'whiskey', 'tequila']
     for category in data:
         if category[0] == drink:
-            active_drink = category[0]
             amount = category[1]
-            if active_drink == 'coke' or 'sprite' or 'tonic' or 'orange' or 'ginger':
-                amount = amount - 3.5**0.0295735  # oz/drink * L/oz to get L/drink, alc:mixer ratio is 1:3
-            elif active_drink == 'vodka' or 'rum' or 'gin' or 'tequila':
-                amount = amount - 1.5*0.0295735  # oz/shot * L/oz to get L/shot, each mixed drink has one 1.5oz shot of alcohol
+            print(drink)
+            if drink in mixers:
+                print('mixer')
+                amount = amount - int(3.5*29.5735)  # oz/drink * mL/oz to get mL/drink, alc:mixer ratio is 1:3
+            elif drink in alc:
+                print('alc')
+                amount = amount - int(1.5*29.5735)  # oz/shot * mL/oz to get L/shot, each mixed drink has one 1.5oz shot of alcohol
     cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (amount, drink))
     con.commit()
     con.close()
@@ -260,12 +265,11 @@ def write_drink_timestamp(barcode):
     cur = con.cursor()
     cur.execute('SELECT * FROM time_drinks')
     data = cur.fetchall()
-    for category in data:
-        if category[0] == barcode:
-            ts = time.time()
-            #st = time.strftime("%Y%M%D%H%M%S", time.gmtime(time.time()))
-            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5 ))
-            newtime = ts
+    barcodes = [x[0] for x in data]
+    if barcode not in barcodes:
+        cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (barcode,))
+    newtime = time.time()
+    st = ''.join(random.choice(string.ascii_uppercase) for _ in range(5))
     cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
     cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
     con.commit()
