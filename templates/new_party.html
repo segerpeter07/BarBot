@@ -68,7 +68,9 @@
 
         <a class="anchor" id="welcome"></a>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <button class="btn btn-lg btn-warning btn-block" type="submit" href='/admin/<string:username>/new_party/confirm'>New Party</button>
+          <form action="/admin/{{string:username}}/new_party/confirm" method="post" class="form">
+            <button class="btn btn-lg btn-warning btn-block" type="submit">New Party</button>
+          </form>
       </div>
     </div>
 

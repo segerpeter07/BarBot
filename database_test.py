@@ -80,8 +80,9 @@ def reset_drink_data():
     cur = con.cursor()
     cur.execute('SELECT * FROM drinks_data')
     data = cur.fetchall()
+    quantity = 2000
     for drink in data:
-        cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (20000, drink))
+        cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (quantity, drink[0]))
     con.commit()
     con.close()
 

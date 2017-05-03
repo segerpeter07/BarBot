@@ -344,7 +344,7 @@ def pc_dashboard(username):
 @app.route('/admin/<string:username>/new_party', methods=['GET', 'POST'])
 def new_party(username):
     """
-    This function renders the page for reseting the party
+    This function renders the page for resetting the party
     """
     if not session.get('logged_in'):
         return redirect('/login')
@@ -352,7 +352,7 @@ def new_party(username):
         return render_template('new_party.html', username=username)
 
 
-@app.route('/admin/<string:username>/new_party/confirm')
+@app.route('/admin/<string:username>/new_party/confirm', methods=['GET', 'POST'])
 def new_party_confirm(username):
     """
     This function resets the drinks_times and drinks_data tables
