@@ -265,7 +265,7 @@ def write_drink_timestamp(barcode):
         if category[0] == barcode:
             ts = time.time()
             #st = time.strftime("%Y%M%D%H%M%S", time.gmtime(time.time()))
-            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5 ))
+            st = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
             newtime = ts
     cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
     cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
@@ -435,6 +435,19 @@ def check_admin(username, password):
     return state
 
 
+def update_start_time():
+    """
+    This function updates the party start to the current time of day
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    pts = time.time()
+    pts = int(pts)
+    cur.execute('UPDATE party_global_data SET party_start=? WHERE write=?', (pts, 'check'))
+    con.commit()
+    con.close()
+
+
 if __name__ == '__main__':
     # return_data()
     # increase_drink_count('hello')
@@ -442,4 +455,5 @@ if __name__ == '__main__':
     # sync_user('pseger1', '12123132')
     # print(get_drink_count(input('Drink: ')))
     # return_user(input('Username: '))
-    clear_times()
+    #clear_times()
+    #update_start_time()
