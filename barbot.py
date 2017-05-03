@@ -341,16 +341,29 @@ def pc_dashboard(username):
         return render_template('pcdash.html', revenue=revenue, expense=expense, profit=profit, host=HOST, port=PORT, username=username)
 
 
-@app.route('/admin/<string:username>/new-party', methods=['GET', 'POST'])
+@app.route('/admin/<string:username>/new_party', methods=['GET', 'POST'])
 def new_party(username):
     """
-    This function resets the drinks_times table in the database showing
-    the start of a new party
+    This function renders the page for reseting the party
     """
     if not session.get('logged_in'):
         return redirect('/login')
     else:
-        return render_template('new_party.html')
+        return render_template('new_party.html', username=username)
+
+
+@app.route('/admin/<string:username>/new_party/confirm')
+def new_party_confirm(username):
+    """
+    This function resets the drinks_times and drinks_data tables
+    in the database showing the start of a new party
+    """
+    if not session.get('logged_in'):
+        return redirect('/login')
+    else:
+        clear_times()
+        reset_drink_data()
+        return redirect('/admin/<string:username>')
 
 
 # ---------Plots----------->

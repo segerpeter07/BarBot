@@ -71,6 +71,20 @@ def return_drink_data():
     data = cur.fetchall()
     return data
 
+
+def reset_drink_data():
+    """
+    This function resets the drinks amount at the begining of a party
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM drinks_data')
+    data = cur.fetchall()
+    for drink in data:
+        cur.execute('UPDATE drinks_data SET amount=? WHERE drink=?', (20000, drink))
+    con.commit()
+    con.close()
+
 # --------------------------->
 
 
