@@ -89,6 +89,22 @@ def sync_user(username, barcode):
     cur.execute('UPDATE account_holder SET barcode=? WHERE username=?', (person_barcode, username))
     con.commit()
     con.close()
+    update_revenue(5)
+
+
+def update_revenue(amount):
+    """
+    This function takes in an amount to add to revenue and updates revenue by that amount.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM party_global_data')
+    data = cur.fetchall()
+    current_revenue = data[0][2]
+    new_revenue = int(current_revenue) + int(amount)
+    cur.execute('UPDATE party_global_data SET revenue=? WHERE write=?', (new_revenue, 'check'))
+    con.commit()
+    con.close()
 
 
 def insert_user(email, username, phone, password, height, weight, age, gender):
@@ -152,7 +168,7 @@ def return_data():
     con.close()
 
 
-def get_party_start():
+def get_party_global_data():
     """
     Returns the party start time.
     """
@@ -160,7 +176,7 @@ def get_party_start():
     cur = con.cursor()
     cur.execute("SELECT * FROM party_global_data")
     data = cur.fetchall()
-    return data[0][0]
+    return data
     con.close()
 
 
@@ -269,6 +285,22 @@ def write_drink_timestamp(barcode):
     st = ''.join(choice(string.ascii_uppercase) for _ in range(5))
     cur.execute("ALTER TABLE time_drinks ADD COLUMN " + st + " INTEGER")
     cur.execute('UPDATE time_drinks SET ' + st + ' =? WHERE barcode=?', (newtime, barcode))
+    con.commit()
+    con.close()
+    update_expense(1)
+
+
+def update_expense(amount):
+    """
+    This function takes in an amount to add to expense and updates expense by that amount.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM party_global_data')
+    data = cur.fetchall()
+    current_expense = data[0][3]
+    new_expense = current_expense + amount
+    cur.execute('UPDATE party_global_data SET expense=? WHERE write=?', (new_expense, 'check'))
     con.commit()
     con.close()
 
