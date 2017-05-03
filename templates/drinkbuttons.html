@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+    <title>BarBot - Drink Selection</title>
+
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/bootstrap.css')}}">
+
+    <!-- Style for this page only -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/signin.css')}}">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -18,49 +23,57 @@
     <![endif]-->
   </head>
   <body>
-
-<form action='/<string:barcode>/drinkresults' method='post'>
+{% if success %}
+<form action='/drinkresults/{{username}}/{{barcode}}' method='post'>
     <div class="form-check" data-toggle="buttons-radio" name="mixers">
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Sprite" autocomplete="off" name='mixers'> Sprite
-      </label>
-      <label class="btn btn-danger btn-lg">
-        <input type="radio" value="Coke" autocomplete="off" name='mixers'> Coke
+      <label class="btn btn-success btn-lg">
+        <input type="radio" value="sprite" autocomplete="off" name='mixers' required> Sprite
       </label>
       <label class="btn btn-success btn-lg">
-        <input type="radio" value="Ginger Ale" autocomplete="off" name='mixers'> Ginger Ale
+        <input type="radio" value="coke" autocomplete="off" name='mixers'> Coke
       </label>
-      <label class="btn btn-warning btn-lg">
-        <input type="radio" value="Orange Soda" autocomplete="off" name='mixers'> Orange Soda
+      <label class="btn btn-success btn-lg">
+        <input type="radio" value="ginger" autocomplete="off" name='mixers'> Ginger Ale
       </label>
-      <label class="btn btn-info btn-lg">
-        <input type="radio" value="Tonic" autocomplete="off" name='mixers'> Tonic
+      <label class="btn btn-success btn-lg">
+        <input type="radio" value="orange" autocomplete="off" name='mixers'> Orange Soda
+      </label>
+      <label class="btn btn-success btn-lg">
+        <input type="radio" value="tonic" autocomplete="off" name='mixers'> Tonic
       </label>
     </div>
 <br>
 <br>
 <fieldset class="form-group">
     <div class="form-check" data-toggle="buttons-radio" name="alcohol">
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Vokda" autocomplete="off" name="alcohol"> Vokda
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="vodka" autocomplete="off" name="alcohol" required> Vokda
       </label>
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Rum" autocomplete="off" name="alcohol"> Rum
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="rum" autocomplete="off" name="alcohol"> Rum
       </label>
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Whiskey" autocomplete="off" name="alcohol"> Whiskey
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="whiskey" autocomplete="off" name="alcohol"> Whiskey
       </label>
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Tequila" autocomplete="off" name="alcohol"> Tequila
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="tequila" autocomplete="off" name="alcohol"> Tequila
       </label>
-      <label class="btn btn-primary btn-lg">
-        <input type="radio" value="Gin" autocomplete="off" name="alcohol"> Gin
+      <label class="btn btn-danger btn-lg">
+        <input type="radio" value="gin" autocomplete="off" name="alcohol"> Gin
       </label>
     </div>
 </fieldset>
     <br>
-    <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Submit </button>
+    <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Submit</button>
 </form>
+{% else %}
+<div class="container">
+  <div class="col-8">
+    <h2>Invalid barcode.</h2>
+    <a href="/barcode">Try again</a>
+  </div>
+</div>
+{% endif %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

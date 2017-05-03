@@ -23,4 +23,5 @@ def find_BACS_singleuser(current_time, party_start, username):
     lines = 1
     elements = len(values)
     color = ["rgba(169,68,66,1)"]
-    return [values, labels, lines, elements, person, color]
+    fill_color = "rgba(169,68,66,0.2)"
+    return [values, labels, lines, elements, person, color, fill_color]
