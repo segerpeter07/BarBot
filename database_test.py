@@ -116,7 +116,7 @@ def inst_barcode(temp_barcode):
     con = sql.connect("database.db")
     cur = con.cursor()
     temp_barcode = str(temp_barcode)
-    cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (temp_barcode))
+    cur.execute("INSERT INTO time_drinks (barcode) VALUES (?)", (temp_barcode,))
     con.commit()
     con.close()
 
