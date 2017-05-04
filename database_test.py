@@ -243,6 +243,33 @@ def return_user(username):
     return None
 
 
+def return_user_from_barcode(barcode):
+    """
+    This function takes a username and returns all the information about them including:
+    -id
+    -email
+    -username
+    -phone
+    -password
+    -number of drinks
+    -barcode identifier
+    -height
+    -weight
+    -age
+    -gender
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    for person in data:
+        if person[6] == barcode:
+            return(person)
+    con.commit()
+    con.close()
+    return None
+
+
 def check_password(username, password):
     """
     This function takes a username and the entered password and checks to see if
@@ -369,7 +396,6 @@ def get_drink_timestamp(barcode):
     with the most drinks will return None as the list item where there
     is no timestamp.
     """
-
     con = sql.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT * FROM time_drinks')
@@ -385,6 +411,19 @@ def get_drink_timestamp(barcode):
     con.commit()
     con.close()
     return None
+
+
+def get_all_drink_timestamps():
+    """
+    This function returns all data in time_drinks.
+    """
+    con = sql.connect('database.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM time_drinks')
+    data = cur.fetchall()
+    return data
+    con.commit()
+    con.close()
 
 
 def clear_times():
