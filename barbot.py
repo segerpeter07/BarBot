@@ -422,7 +422,7 @@ if __name__ == '__main__':
     # toolbar = DebugToolbarExtension(app)
 
     # app.run(host=HOST, port=PORT)     # Use for hosting on localhost
-    HOST = '10.7.68.97'     # use for hosting on single computer on network
+    HOST = '10.7.28.32'     # use for hosting on single computer on network
     # HOST = 'localhost'
     app.run(host=HOST, port=PORT)
     app.run(threaded=True)
