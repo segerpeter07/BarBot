@@ -364,6 +364,7 @@ def new_party_confirm(username):
         clear_times()
         reset_drink_data()
         reset_party_global_data()
+        reset_barcodes()
         return redirect('/admin/' + username)
 
 
