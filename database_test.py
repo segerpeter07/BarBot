@@ -137,7 +137,7 @@ def insert_user(email, username, phone, password, height, weight, age, gender):
     barcode_val = randint(1, 10000)
     cur.execute("INSERT INTO account_holder (email,username,phone,password,drinks,barcode,height,weight,age,gender) VALUES (?,?,?,?,?,?,?,?,?,?)", (email, username, phone, password, 0, barcode_val, height, weight, age, gender))
     con.commit()
-    inst_barcode(barcode_val)
+    # inst_barcode(barcode_val)
     con.close()
 
 
