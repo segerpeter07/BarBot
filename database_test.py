@@ -48,19 +48,6 @@ def update_drink(drink):
     con.close()
 
 
-def get_drink_count(drink):
-    """
-    This function takes a drink and returns the amount of that drink that is left
-    """
-    con = sql.connect('database.db')
-    cur = con.cursor()
-    cur.execute('SELECT * FROM drinks_data')
-    data = cur.fetchall()
-    for choice in data:
-        if choice[0] == drink:
-            return choice[1]
-
-
 def return_drink_data():
     """
     This function returns all drink inventory data.
