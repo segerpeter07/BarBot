@@ -76,6 +76,18 @@ def reset_drink_data():
 # --------------------------->
 
 
+def reset_barcodes():
+    """
+    This function resets all account_holder barcodes to an arbitrary value when a new party is started.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    cur.execute('UPDATE account_holder SET barcode=?', ('AAAAA',))
+    con.commit()
+    con.close()
+
+
 def sync_user(username, barcode):
     """
     This function takes a username and barcode readin from a reader
