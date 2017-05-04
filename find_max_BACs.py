@@ -10,15 +10,16 @@ def find_max_BACs(current_time, party_start, max_disp_num):
     bac_series = []  # empty list to store all bac series, once final_bacs is sorted these series will be selected out and appended to values
     values = []  # empty list to contain final list of values of bacs for highest users
     labels = []  # empty list to contain time strings of time series for plotting
-    data = return_data()  # returns all account_holder data as a list of tuples
+    data = get_all_drink_timestamps()  # returns all data in time_drinks as a list of tuples
     if max_disp_num > len(data):  # make sure max_disp_num cannot exceed number of people (records) in database
         max_disp_num = len(data)
     first_run = True  # this is used to only pull the time series once since it is the same for all users
-    for user in data:  # iterate through each user's information tuple
+    for record in data:  # iterate through each user's drink times information tuple
+        barcode = record[0]  # barcode is first column in time_drinks
+        user = return_user_from_barcode(barcode)  # uses database_test function to return all user data for a given barcode
         person = user[2]  # username is 3rd entry in tuple
         people.append(person)
-        barcode = user[6]  # barcode is 7th entry in tuple
-        drink_times = get_drink_timestamp(barcode)  # uses database_test function to return list of times in seconds from epoch at which user took a drink
+        drink_times = record[1:]  # removes first column which is barcode to get a list of times in seconds from epoch at which user took a drink
         drink_times = [x for x in drink_times if x is not None]  # removes null values from list, some users may have taken more drinks than others
         height = user[7]  # height is 8th entry in tuple
         weight = user[8]*453.592  # weight is 9th entry in tuple, weight in DB is in lbs, needs to be in grams for BAC.py
