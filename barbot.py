@@ -213,7 +213,7 @@ def confirm():
         if return_user(username) is not None and check_password(username, password):
             sync_user(username, initbarcode)
             success = True
-        return render_template('confirm.html', username=username, initbarcode=initbarcode, success=success)
+        return render_template('confirm.html', username=username, initbarcode=initbarcode)
 
 
 # BAR SECTION
