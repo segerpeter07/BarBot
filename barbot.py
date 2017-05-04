@@ -213,7 +213,7 @@ def confirm():
         if return_user(username) is not None and check_password(username, password):
             sync_user(username, initbarcode)
             success = True
-        return render_template('confirm.html', username=username, initbarcode=initbarcode)
+        return render_template('confirm.html', username=username, initbarcode=initbarcode, success=success)
 
 
 # BAR SECTION
@@ -421,7 +421,9 @@ if __name__ == '__main__':
     # # app.debug = False
     # toolbar = DebugToolbarExtension(app)
 
-    app.run(host=HOST, port=PORT)     # Use for hosting on localhost
-    # HOST = '10.7.68.97'     # use for hosting on single computer on network
-    # app.run(host=HOST, port=PORT)
+    # app.run(host=HOST, port=PORT)     # Use for hosting on localhost
+    HOST = '10.7.68.97'     # use for hosting on single computer on network
+    # HOST = 'localhost'
+    app.run(host=HOST, port=PORT)
+    app.run(threaded=True)
     # app.run('0.0.0.0', '443')
