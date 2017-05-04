@@ -210,7 +210,7 @@ def confirm():
         password = request.form['password']
         success = False  # default is false for syncing success
         # Check if user exists
-        if return_user(username) is not None and check_password(username, password):
+        if return_user(username) is not None and check_password(username, password) and barcode_not_in_use(initbarcode):
             sync_user(username, initbarcode)
             success = True
         return render_template('confirm.html', username=username, initbarcode=initbarcode, success=success)

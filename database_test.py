@@ -76,6 +76,23 @@ def reset_drink_data():
 # --------------------------->
 
 
+def barcode_not_in_use(barcode):
+    """
+    This function checks if a barcode isn't in use and returns True if it ISN'T and False if it IS.
+    """
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    cur.execute('SELECT * FROM account_holder')
+    data = cur.fetchall()
+    cond = True
+    for person in data:
+        if barcode == person[6]:
+            cond = False
+    return cond
+    con.commit()
+    con.close()
+
+
 def reset_barcodes():
     """
     This function resets all account_holder barcodes to an arbitrary value when a new party is started.
