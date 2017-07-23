@@ -1,6 +1,8 @@
 # /barbot/views/profile.py
 
 from flask import Blueprint, render_template, g
+from flask_login import login_required, current_user
+
 from ..models import User
 
 profile = Blueprint('profile', __name__)
@@ -13,12 +15,14 @@ def get_profile_owner(endpoint, values):
 
 
 @profile.route('/')
+@login_required
 def homescreeen():
     # do some stuff
     return render_template('profile/homescreeen.html')
 
 
 @profile.route('/feed')
+@login_required
 def feed():
     # do some stuff
     return render_template('profile/feed.html')

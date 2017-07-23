@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_cache import Cache
 
 from .views.profile import profile
 from .views.home import home
@@ -23,6 +24,9 @@ app.register_blueprint(admin, url_prefix='/<user_url_slug>')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+cache = Cache(app, config={'CACHE_TYPE': 'redis'})
+cache.init_app(app)
 
 bcyrpt = Bcrypt(app)
 

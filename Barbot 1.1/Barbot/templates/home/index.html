@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}Barbot - The Future of Bartending{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/jumbotron.css')}}">
+{% endblock%}
+
+{% block body %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" action="{{url_for('login')}}" method="post">
+            <div class="form-group">
+              <input type="username" name="username" placeholder="Username" class="form-control" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Welcome to the Future of Bartending!</h1>
+        <p>BarBot provides a safe, convenient way to run a party. We provide a comprehensive party running suite of tools for users and hosts including advanced drink tracking and powerful visualization tools.</p>
+        <p><a class="btn btn-primary btn-lg" href="{{url_for('login')}}" role="button">Login Here &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Drinks Tracking</h2>
+          <p>Users sync their accounts with a wrist band barcode at the party and are able to track their drinkns then on. Each drink after is added to their account and the users can go back after the party and when they got a drink in a beautiful graphical display.</p>
+        </div>
+        <div class="col-md-4">
+          <h2>Party Captain Suite</h2>
+          <p>Party hosts have access to a full suite of logistics tools including stock tracking so they know exactly when to resupply the bar. They also have access to tools to track users based off their BAC so they can ensure their party is of the utmost safety standards</p>
+       </div>
+        <div class="col-md-4">
+          <h2>Data Visualization</h2>
+          <p>Both users and hosts have access to a broad range of data visualization tools that allow them to keep an eye on the party before, during, and after. Additional tools help the hosts ensure they are staying on budget, as well a help forcast earnings for the night</p>
+          <p><a class="btn btn-primary" href="{{url_for('signup')}}" role="button">Create Your Account &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2017 FDF, Inc. <a class="btn btn-" href="{{url_for('about')}}" role="button">About BarBot Technologies &raquo;</a> </p>
+      </footer>
+    </div> <!-- /container -->
+{% endblock%}

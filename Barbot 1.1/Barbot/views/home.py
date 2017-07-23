@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, url_for
 
 from flask_login import login_user
 
-from . import app, db
+from . import app, db, cache
 from .forms import EmailPasswordForm, EmailForm, PasswordForm
 from .util import ts
 from .util.email import send_email
@@ -13,6 +13,7 @@ home = Blueprint('home', __name__)
 
 
 @home.route('/')
+@cache.cached(timeout=60)   # Homepage is cached every 60 seconds
 def index():
     # do some stuff
     return render_template('home/index.html')
@@ -48,8 +49,12 @@ def signup():
     form = EmailPasswordForm()
     if form.validate_on_submit():
         user = User(
+            username = form.username.data
             email = form.email.data
             password = form.password.data
+            height = form.height.data
+            weight = form.weight.data
+            barcode = '00000'
         )
         db.session.add(user)
         db.session.commit()
@@ -65,8 +70,8 @@ def signup():
             _external = True)
 
         html = render_template(
-            'email/activate',
-            confirm_url = confirm_url)
+            'email/activate.html',
+            confirm_url=confirm_url)
 
         # send_email() defined in /Barbot/util/email.py
         send_email(user.email, subject, html)
