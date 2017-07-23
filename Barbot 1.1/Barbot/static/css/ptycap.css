@@ -1,0 +1,15 @@
+.list-group {
+  width: 30%;
+  margin-bottom: 50px;
+}
+
+.list-group-item {
+  font-size: xx-large;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -60px;
+    visibility: hidden;
+}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/dashboard.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/ptycap.css')}}">
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">BarBot LLC</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href={{ url_for('feed', 'admin/feed') }}>Feed</a></li>
+            <li><a href={{ url_for('settings', 'admin/settings') }}>Settings</a></li>
+            <li><a href={{ url_for('new_party', 'admin/new_party') }}>New Party</a></li>
+            <li><a href={{ url_for('payment', 'admin/payment') }}>Payment</a></li>
+            <li><a href={{ url_for('logout', 'admin/logout') }}>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
